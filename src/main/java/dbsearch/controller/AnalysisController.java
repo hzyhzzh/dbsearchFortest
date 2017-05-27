@@ -22,6 +22,7 @@ import dbsearch.domain.Paper;
 import dbsearch.domain.PaperField;
 import dbsearch.service.impl.AnalysisService;
 import dbsearch.service.impl.CategoryService;
+import dbsearch.service.impl.DiagnoseFieldService;
 import dbsearch.service.impl.PaperService;
 import dbsearch.service.impl.SearchService;
 
@@ -37,15 +38,16 @@ public class AnalysisController {
 	@Autowired
 	private SearchService searchService;
 	
+	
 	String[] STR_LIST=Paper.STR_LIST;
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping("/analysis")
 	@ResponseBody
 	public List justTest(Model model, HttpServletRequest request) {
-		String failureEquipment=request.getParameter("failureEquipment");//Ê§Ð§Éè±¸
-		String cateId=request.getParameter("cateId");//Ê§Ð§ÐÎÊ½ºÍÊ§Ð§»úÀí
-		String failureComponent=request.getParameter("failureComponent");//Ê§Ð§²¿¼þ
-		String failureMaterial=request.getParameter("failureMaterial");//Ê§Ð§²ÄÁÏÀàÐÍ
+		String failureEquipment=request.getParameter("failureEquipment");//Ê§Ð§ï¿½è±¸
+		String cateId=request.getParameter("cateId");//Ê§Ð§ï¿½ï¿½Ê½ï¿½ï¿½Ê§Ð§ï¿½ï¿½ï¿½ï¿½
+		String failureComponent=request.getParameter("failureComponent");//Ê§Ð§ï¿½ï¿½ï¿½ï¿½
+		String failureMaterial=request.getParameter("failureMaterial");//Ê§Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String gjcStr=request.getParameter("gjcStr");
 		
 		Map searchMap=new HashMap();
@@ -72,7 +74,7 @@ public class AnalysisController {
 				int x=Integer.parseInt(gjcStr.substring(0, gjcStr.indexOf("&")));
 				gjcSet.add(x);
 				if(gjcStr.indexOf("&")==gjcStr.length()-1)
-					break;//Ê£×îºóÒ»×éÊý¾Ý²»ÔÙ½ØÈ¡
+					break;//Ê£ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½Ù½ï¿½È¡
 				gjcStr=gjcStr.substring(gjcStr.indexOf("&")+1);
 			}
 		}
@@ -82,10 +84,10 @@ public class AnalysisController {
 	
 	@RequestMapping(value = "/Jump2Analysis", method = RequestMethod.POST)
 	public String doJump2Analysis(Model model, HttpServletRequest request) {
-		String failureEquipment=request.getParameter("failureEquipment");//Ê§Ð§Éè±¸
-		String cateId=request.getParameter("cateId");//Ê§Ð§ÐÎÊ½ºÍÊ§Ð§»úÀí
-		String failureComponent=request.getParameter("failureComponent");//Ê§Ð§²¿¼þ
-		String failureMaterial=request.getParameter("failureMaterial");//Ê§Ð§²ÄÁÏÀàÐÍ
+		String failureEquipment=request.getParameter("failureEquipment");//Ê§Ð§ï¿½è±¸
+		String cateId=request.getParameter("cateId");//Ê§Ð§ï¿½ï¿½Ê½ï¿½ï¿½Ê§Ð§ï¿½ï¿½ï¿½ï¿½
+		String failureComponent=request.getParameter("failureComponent");//Ê§Ð§ï¿½ï¿½ï¿½ï¿½
+		String failureMaterial=request.getParameter("failureMaterial");//Ê§Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String gjcStr=request.getParameter("gjcStr");
 		
 		model.addAttribute("failureEquipment", failureEquipment);
@@ -98,10 +100,10 @@ public class AnalysisController {
 	
 	@RequestMapping(value = "/GRTJFX", method = RequestMethod.POST)
 	public String doGRTJFX(Model model, HttpServletRequest request) {
-		String failureEquipment=request.getParameter("failureEquipment");//Ê§Ð§Éè±¸
-		String cateId=request.getParameter("cateId");//Ê§Ð§ÐÎÊ½ºÍÊ§Ð§»úÀí
-		String failureComponent=request.getParameter("failureComponent");//Ê§Ð§²¿¼þ
-		String failureMaterial=request.getParameter("failureMaterial");//Ê§Ð§²ÄÁÏÀàÐÍ
+		String failureEquipment=request.getParameter("failureEquipment");//Ê§Ð§ï¿½è±¸
+		String cateId=request.getParameter("cateId");//Ê§Ð§ï¿½ï¿½Ê½ï¿½ï¿½Ê§Ð§ï¿½ï¿½ï¿½ï¿½
+		String failureComponent=request.getParameter("failureComponent");//Ê§Ð§ï¿½ï¿½ï¿½ï¿½
+		String failureMaterial=request.getParameter("failureMaterial");//Ê§Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 		Map searchMap=new HashMap();
 		for(int i=0;i<STR_LIST.length;i++){
@@ -131,7 +133,7 @@ public class AnalysisController {
 	public String doSearch_tjfx(Model model, HttpServletRequest request) {
 		List<Category> parentCateList=categoryService.getCategoryByParent(1);
 		model.addAttribute("parentCateList", parentCateList);
-		//¼ÓÔØ¹Ø¼ü´Ê
+		//ï¿½ï¿½ï¿½Ø¹Ø¼ï¿½ï¿½
 		List fieldList=analysisService.getPaperField();
 		Map fieldMap=new HashMap();
 		PaperField paperField;
@@ -150,7 +152,7 @@ public class AnalysisController {
 	public String doSearch_grtjfx(Model model, HttpServletRequest request) {
 		List<Category> parentCateList=categoryService.getCategoryByParent(1);
 		model.addAttribute("parentCateList", parentCateList);
-		//¼ÓÔØ¹Ø¼ü´Ê
+		//ï¿½ï¿½ï¿½Ø¹Ø¼ï¿½ï¿½
 		List fieldList=analysisService.getPaperField();
 		Map fieldMap=new HashMap();
 		PaperField paperField;
@@ -166,10 +168,10 @@ public class AnalysisController {
 	}
 	@RequestMapping(value = "/searchTJFX", method = RequestMethod.POST)
 	public String doSearchTJFX(Model model, HttpServletRequest request) {
-		String failureEquipment=request.getParameter("failureEquipment");//Ê§Ð§Éè±¸
-		String cateId=request.getParameter("cateId");//Ê§Ð§ÐÎÊ½ºÍÊ§Ð§»úÀí
-		String failureComponent=request.getParameter("failureComponent");//Ê§Ð§²¿¼þ
-		String failureMaterial=request.getParameter("failureMaterial");//Ê§Ð§²ÄÁÏÀàÐÍ
+		String failureEquipment=request.getParameter("failureEquipment");//Ê§Ð§ï¿½è±¸
+		String cateId=request.getParameter("cateId");//Ê§Ð§ï¿½ï¿½Ê½ï¿½ï¿½Ê§Ð§ï¿½ï¿½ï¿½ï¿½
+		String failureComponent=request.getParameter("failureComponent");//Ê§Ð§ï¿½ï¿½ï¿½ï¿½
+		String failureMaterial=request.getParameter("failureMaterial");//Ê§Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int pageIndex=Integer.parseInt(request.getParameter("pageIndex"));
 		
 		Map searchMap=new HashMap();
@@ -195,10 +197,10 @@ public class AnalysisController {
 	@RequestMapping(value = "/ajax/getTJFXCount")
 	@ResponseBody
 	public String doGetTJFXCount(Model model, HttpServletRequest request) {
-		String failureEquipment=request.getParameter("failureEquipment");//Ê§Ð§Éè±¸
-		String cateId=request.getParameter("cateId");//Ê§Ð§ÐÎÊ½ºÍÊ§Ð§»úÀí
-		String failureComponent=request.getParameter("failureComponent");//Ê§Ð§²¿¼þ
-		String failureMaterial=request.getParameter("failureMaterial");//Ê§Ð§²ÄÁÏÀàÐÍ
+		String failureEquipment=request.getParameter("failureEquipment");//Ê§Ð§ï¿½è±¸
+		String cateId=request.getParameter("cateId");//Ê§Ð§ï¿½ï¿½Ê½ï¿½ï¿½Ê§Ð§ï¿½ï¿½ï¿½ï¿½
+		String failureComponent=request.getParameter("failureComponent");//Ê§Ð§ï¿½ï¿½ï¿½ï¿½
+		String failureMaterial=request.getParameter("failureMaterial");//Ê§Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 		Map searchMap=new HashMap();
 		for(int i=0;i<STR_LIST.length;i++){
@@ -237,7 +239,7 @@ public class AnalysisController {
 	
 	@RequestMapping(value = "/TJFXKeyWordsInsert", method = RequestMethod.POST)
 	public String doTJFXKeyWordsInsert(Model model, HttpServletRequest request) throws UnsupportedEncodingException{
-		request.setCharacterEncoding("utf-8");// ·ÀÖ¹ÖÐÎÄÃûÂÒÂë
+		request.setCharacterEncoding("utf-8");// ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 		String fieldId=request.getParameter("fieldId");
 		String keyWord=request.getParameter("keyWord");
@@ -266,7 +268,7 @@ public class AnalysisController {
 	
 	@RequestMapping(value = "/TJFXKeyWordsAlter", method = RequestMethod.POST)
 	public String doTJFXKeyWordsAlter(Model model, HttpServletRequest request) throws UnsupportedEncodingException{
-		request.setCharacterEncoding("utf-8");// ·ÀÖ¹ÖÐÎÄÃûÂÒÂë
+		request.setCharacterEncoding("utf-8");// ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 		String keyWordId=request.getParameter("keyWordId");
 		String keyWord=request.getParameter("keyWord");
@@ -295,7 +297,7 @@ public class AnalysisController {
 	
 	@RequestMapping(value = "/TJFXKeyWordsDelete", method = RequestMethod.POST)
 	public String doTJFXKeyWordsDelete(Model model, HttpServletRequest request) throws UnsupportedEncodingException{
-		request.setCharacterEncoding("utf-8");// ·ÀÖ¹ÖÐÎÄÃûÂÒÂë
+		request.setCharacterEncoding("utf-8");// ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 		String keyWordId=request.getParameter("keyWordId");
 		

@@ -1,3 +1,6 @@
+<%@page import="ch.qos.logback.core.joran.conditional.ElseAction"%>
+<%@page import="dbsearch.service.impl.DiagnoseFieldService"%>
+<%@page import="dbsearch.domain.DiagnoseField"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@	taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@	taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -213,10 +216,27 @@
 					<h4 style="margin-top:70px;">请选择失效形式</h4>
 					<div style="margin:0 auto;text-align:center;line-height:2em;font-size:14px;color:#7B7B7B;">
 						<form>
-							 <input type="radio" name="equipment" value="fdj">变形<br>
-							 <input type="radio" name="equipment" value="qlj">腐蚀<br>
-							 <input type="radio" name="equipment" value="jy">磨损<br>
-							 <input type="radio" name="equipment" value="qt">断裂<br><br><br><br>					 
+						<%
+							List<List<DiagnoseField>> menuList;
+							menuList = (List<List<DiagnoseField>>) request.getAttribute("FieldList");
+							for(int i = 0;i<menuList.size();++i)
+								if(menuList.get(i).get(0).getName().equals("失效形式")){
+									for(int j = 1;j < menuList.get(i).size();++j)
+									{
+						%>
+
+									 <input type="radio" name="equipment" value=<%= menuList.get(i).get(j).getName()%>>
+									 <%=menuList.get(i).get(j).getName()%><br>
+									<!--<input type="radio" name="equipment" value="qlj">腐蚀<br>
+									 <input type="radio" name="equipment" value="jy">磨损<br>
+									 <input type="radio" name="equipment" value="qt">断裂<br><br><br><br>		  --> 			 
+		 				
+		 				<%
+									}
+								}
+								else
+									continue;
+		 				%>
 		 				</form> 
 					</div>
 				</div>

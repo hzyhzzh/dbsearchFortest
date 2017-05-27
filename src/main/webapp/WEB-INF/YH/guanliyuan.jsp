@@ -117,7 +117,7 @@
 	if (urlSection == "null")
 		urlSection = "gly_main_yhgl";
 	var sectionList = new Array("gly_main_yhgl", "gly_main_wdgl",
-			"gly_main_reset", "gly_main_success", "gly_main_lbgl",
+			"gly_main_reset", "gly_main_success", "gly_main_lbgl","gly_main_fieldmanage",
 			"gly_main_upload","gly_main_tjfx");
 	function checkPasswords() {
 		var pass1 = document.getElementById("upassword");
@@ -170,7 +170,7 @@
 		});
 		$("#menu_sub_wdgl").click(function() {//文档管理
 			showSection("gly_main_wdgl");
-			var url = "/dbsearch/YH/wenxian_list_am";
+			var url = "/dbsearchForTest/YH/wenxian_list_am";
 			var data = {
 				operRole:"adm",
 				strSearch:"",
@@ -199,7 +199,7 @@
 		});
 		$("#menu_sub_tjfx").click(function() {
 			showSection("gly_main_tjfx");
-			var url = "/dbsearch/YH/tjfx";
+			var url = "/dbsearchForTest/YH/tjfx";
 			var data = {
 
 			};
@@ -216,9 +216,31 @@
 				}
 			});
 		});
+		//修改自诊的关键词
+		$("#menu_sub_fieldmanage").click(function(){
+			showSection("gly_main_fieldmanage");
+			var url = "/dbsearchForTest/YH/diagnosefieldmanage";
+			var data = {
+
+			};
+			$.ajax({
+				type : "post",
+				async : false, //同步请求
+				url : url,
+				data : data,
+				success : function(datas) {
+					$("#gly_main_fieldmanage").html(datas);//要刷新的div
+				},
+				error : function() {
+					alert("失败，请稍后再试！");
+				}
+			});
+		});
+		
+		
 		$("#menu_sub_lbgl").click(function() {
 			showSection("gly_main_lbgl");
-			var url = "/dbsearch/YH/leibie01";
+			var url = "/dbsearchForTest/YH/leibie01";
 			var data = {
 
 			};
@@ -236,6 +258,8 @@
 			});
 		});
 		$("#menu_sub_yhgl").click();
+		
+		
 	})
 
 
@@ -260,6 +284,9 @@
 				</div>
 				<div id="menu_sub_lbgl" class="menu_sub">
 					<span class="menu_sub_span">类别管理</span>
+				</div>
+				<div id="menu_sub_fieldmanage" class="menu_sub">
+					<span class="menu_sub_span">自诊关键词管理</span>
 				</div>
 				<div id="menu_sub_upload" class="menu_sub">
 					<span class="menu_sub_span">上传文章</span>
@@ -350,6 +377,7 @@
 					<label>密码修改成功</label>
 				</div>
 				<div id="gly_main_lbgl" style="display: none;"></div>
+				<div id="gly_main_fieldmanage" style="display: none;"></div>
 				
 			</div>
 		</div>
@@ -416,7 +444,7 @@
 					}
 				});
 	}
-	var sectionArr = new Array("menu_sub_yhgl", "menu_sub_wdgl","menu_sub_lbgl", "menu_sub_mmxg", "menu_sub_upload", "menu_sub_tjfx");
+	var sectionArr = new Array("menu_sub_yhgl", "menu_sub_wdgl","menu_sub_lbgl","menu_sub_fieldmanage", "menu_sub_mmxg", "menu_sub_upload", "menu_sub_tjfx");
 	function setMenuCCS(menu) {
 		for ( var index in sectionArr) {
 			document.getElementById(sectionArr[index]).style.backgroundColor = "rgb(255,255,255)";
@@ -433,6 +461,9 @@
 	});
 	$("#menu_sub_lbgl").click(function() {
 		setMenuCCS("menu_sub_lbgl");
+	});
+	$("#menu_sub_fieldmanage").click(function() {
+		setMenuCCS("menu_sub_fieldmanage");
 	});
 	$("#menu_sub_upload").click(function() {
 		setMenuCCS("menu_sub_upload");

@@ -1,3 +1,5 @@
+<%@page import="dbsearch.service.impl.DiagnoseFieldService"%>
+<%@page import="dbsearch.domain.DiagnoseField"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@	taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@	taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -222,21 +224,37 @@
 				<span id="step_wd4">诊断结果</span>		
 			</div>
 		</div>
+		<%
+			List<List<DiagnoseField>> menuList;
+			List<DiagnoseField> parentFieldList;
+			List<DiagnoseField> subList;
+			DiagnoseFieldService diagnosefieldService;
+			DiagnoseField tempCategory;
+			menuList = (List<List<DiagnoseField>>) request.getAttribute("FieldList");
+			parentFieldList = (List<DiagnoseField>)request.getAttribute("parentFieldList");
+			String step2name;
+		%>
 		<div class="container" style="width:885px;height:588px;">
 			<div style="border:1px solid #2894FF;margin:100px auto; width:760px;height:400px">
 				<div class="leftside">
 					<form>
 						<table class="leftcontent">
 							<tbody>
+								<%
+								for(int k = 0; k < parentFieldList.size(); k++) 
+									{ String name = parentFieldList.get(k).getName();
+										if(!name.equals("失效形式") ){
+								%>
 								<tr>
-									<td><input type="button" class="button2" value="航天航空" onclick="step1_step2hthk()"></td>
+									<td><input  type="button" class="button2" 
+									value=<%=parentFieldList.get(k).getName() %> onclick="step1_step2(<%=k%>)"></td>
 								</tr>	
-								<tr>	
-									<td><input type="button" class="button2" value="石油化工" onclick="step1_step2syhg()"></td>
-								</tr>
-								<tr>	
-									<td><input type="button" class="button2" value="其他领域" onclick="step1_step2qtly()"></td>
-								</tr>
+								<%
+										}
+										
+									}
+									
+								%>
 							</tbody>
 						</table>
 					</form>
@@ -247,33 +265,39 @@
 						<p style="margin:auto auto auto 10px">请点击左侧按钮选择您的设备所属的行业领域，或点击上方的材料分类选择您设备的材料。</p>
 					</div>
 				</div>
-
-		
-				<div class="rightside" id="step2hthk" style="display:none">
+				<%
+					int len = parentFieldList.size();
+					for(int i=0;i<parentFieldList.size();++i)
+					{
+						String name = parentFieldList.get(i).getName();
+						if(!name.equals("失效形式") ){
+				%>
+					<div class="rightside" id=<%=i%> style="display:none">
 					<h4 style="margin-top:40px;">请选择失效设备</h4>
-					<div style="margin:0 auto;text-align:center;line-height:2em;font-size:14px;color:#7B7B7B;">
+					<div id="step2_inner" style="margin:0 auto;text-align:center;line-height:2em;font-size:14px;color:#7B7B7B;">
 						
 						<form>
-							 <input type="radio" name="equipment" value="fdj" onclick="chred(this);">发动机<br>
-							 <input type="radio" name="equipment" value="qlj" onclick="chred(this);">起落架<br>
-							 <input type="radio" name="equipment" value="jy" onclick="chred(this);">机翼<br>
-							 <input type="radio" name="equipment" value="qt" onclick="chred(this);">其他<br><br>
-							 <input type="button" value="下一步" class="button3" onclick="step2_step3()">
+					<%
+							subList = menuList.get(i);
+							for(int j =1;j<subList.size();++j)
+							{
+					%>
+							<input type="radio" name="equipment" value=<%=subList.get(j).getName() %> onclick="chred(this);">
+								<%=subList.get(j).getName() %><br>
+					<%
+							}
+					%>
+						 <input type="button" value="下一步" class="button3" onclick="step2_step3()"> 
 		 				</form> 
 		 				
 					</div>
 				</div>
-				<div class="rightside" id="step2syhg" style="display:none">
-					<h4 style="margin-top:40px;">请选择部件</h4>
-					<div style="margin:0 auto;text-align:center;line-height:2em;font-size:14px;color:#7B7B7B;">
-						<form>
-							 <input type="radio" name="equipment" value="cg">储罐<br>
-							 <input type="radio" name="equipment" value="cl">齿轮<br><br>
-							 <input type="submit" value="下一步" class="button3">
-							
-			 			</form> 
-		 			</div>
-				</div>
+				
+				<% 			
+						}
+	
+					}
+				%>
 			</div>
 		</div>
 	</div>
@@ -284,6 +308,22 @@
 </body>
 <script type="text/javascript">
 
+	function step1_step2(a){
+		$("#step1").hide();
+		$("#step_pic1").css("background-image","url(images/stepsw.png)");
+		$("#step_pic2").css("background-image","url(images/stepsb.png)");
+		$("#step_wd1").css("color","#5B5B5B");
+		$("#step_wdw").css("color","#2894FF");
+		var c = "#" + a
+		var len = <%=len%>
+		for (var i = 0;i<len-1;++i)
+		{
+			var b = "#" + i
+			 $(b).hide();
+		}
+		 $(c).show();//怎么让之前的隐藏？？
+	}
+
 	function step1_step2hthk(){
 		document.getElementById("step1").style.display="none";
 		document.getElementById("step2hthk").style.display="block";
@@ -292,6 +332,10 @@
 		document.getElementById("step_pic2").style.background="url(images/stepsb.png)";
 		document.getElementById("step_wd1").style.color="#5B5B5B";
 		document.getElementById("step_wd2").style.color="#2894FF";
+		
+		
+		
+		
 	}
 	function step1_step2syhg(){
 		document.getElementById("step1").style.display="none";

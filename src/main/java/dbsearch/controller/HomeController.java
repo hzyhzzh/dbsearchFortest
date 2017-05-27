@@ -37,9 +37,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import dbsearch.domain.Category;
+import dbsearch.domain.DiagnoseField;
 import dbsearch.domain.Paper;
 import dbsearch.domain.User;
 import dbsearch.service.impl.CategoryService;
+import dbsearch.service.impl.DiagnoseFieldService;
 import dbsearch.service.impl.PaperService;
 import dbsearch.service.impl.UserService;
 import dbsearch.util.FileMeta;
@@ -50,6 +52,8 @@ import dbsearch.util.Word2pdf;
 public class HomeController {
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private DiagnoseFieldService diagnosefieldService;
 	@Autowired
 	private PaperService paperService;
 	@Autowired
@@ -80,24 +84,35 @@ public class HomeController {
 	
 	@RequestMapping("/YH/selfanalysis")
 	public String selfamalysis(Model model, HttpServletRequest request) {
-		//***锟斤拷锟斤拷一些锟斤拷锟捷达拷锟斤拷
+		//自我诊断
 		
+		List<DiagnoseField> parentFieldList = diagnosefieldService.getDiagnoseFieldByParent(1);
+		model.addAttribute("parentFieldList", parentFieldList);
+		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
+		model.addAttribute("FieldList", FieldList);
 		return "YH/selfanalysis";
 	}
+	
+	@RequestMapping("/YH/selfanalysis3")
+	public String selfamalysis3(Model model, HttpServletRequest request) {
+		//自我诊断,步骤3
+		
+		List<DiagnoseField> parentFieldList = diagnosefieldService.getDiagnoseFieldByParent(1);
+		model.addAttribute("parentFieldList", parentFieldList);
+		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
+		model.addAttribute("FieldList", FieldList);
+		return "YH/selfanalysis3";
+	
+	}
+	
 	
 	
 	@RequestMapping("/index")
 	public String welcome2(Model model, HttpServletRequest request) {//锟剿猴拷锟斤拷锟斤拷实没锟斤拷锟斤拷
 		if (!model.containsAttribute("resultList")) {
-			List resultList = paperService.getAllPaper();
+			List<Paper> resultList = paperService.getAllPaper();
 			model.addAttribute("resultList", resultList);
 		}
-		/*List<Category> parentCateList = categoryService.getCategoryByParent(1);
-		model.addAttribute("parentCateList", parentCateList);
-		List<List<Category>> cateList = categoryService.getAllCategoryViaList();
-		model.addAttribute("cateList", cateList);*/
-		//锟叫讹拷锟角凤拷锟铰斤拷锟斤拷丫锟斤拷锟铰斤拷锟斤拷锟斤拷锟斤拷锟铰斤拷锟絟idden
-		//model.addAttribute("loginStatus", "req");
 		return "index";
 	}
 	
@@ -121,6 +136,8 @@ public class HomeController {
 		model.addAttribute("tagline", "The	one	and	only	amazing	webstore");
 		List<List<Category>> cateList = categoryService.getAllCategoryViaList();
 		model.addAttribute("cateList", cateList);
+		List<List<DiagnoseField>> fieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
+		model.addAttribute("fieldList", fieldList);
 		return "YH/" + page;
 	}
 
@@ -139,6 +156,33 @@ public class HomeController {
 		model.addAttribute("cateList", cateList);
 		return "YH/leibie02";
 	}
+	
+	@RequestMapping(value = "/insertField", method = RequestMethod.POST)
+	public String doInsertField(Model model) {
+		List<List<DiagnoseField>> fieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
+		model.addAttribute("fieldList", fieldList);
+		return "YH/diagnosefieldmanage02";
+	
+	}
+	@RequestMapping(value = "/insField", method = RequestMethod.POST)
+	public String doInsField(Model model, HttpServletRequest request) {
+		try {
+			String parentId = request.getParameter("parent");
+			String name = request.getParameter("name");
+			DiagnoseField category = new DiagnoseField();
+			category.setName(name);
+			category.setParent(diagnosefieldService.getDiagnoseFieldById(Integer.parseInt(parentId)));
+			diagnosefieldService.addDiagnoseField(category);
+			List<List<DiagnoseField>> cateList = diagnosefieldService.getAllDiagnoseFieldViaList();
+			model.addAttribute("fieldList", cateList);
+			return "YH/diagnosefieldmanage";
+		} catch (Exception e) {
+			System.out.println(e);
+			return "YH/diagnosefieldmanage02";
+		}
+	}
+	
+	
 
 	@RequestMapping(value = "/insCate", method = RequestMethod.POST)
 	public String doInsCate(Model model, HttpServletRequest request) {
@@ -173,6 +217,23 @@ public class HomeController {
 		}
 	}
 
+	@RequestMapping(value = "/updateField", method = RequestMethod.POST)
+	public String doUpdateField(Model model, HttpServletRequest request) {
+		try {
+			String cateId = request.getParameter("cateId");
+			DiagnoseField category = diagnosefieldService.getDiagnoseFieldById(Integer.parseInt(cateId));
+			model.addAttribute("field", category);
+			return "YH/diagnosefieldmanage03";
+		} catch (Exception e) {
+			System.out.println(e);
+			List<List<DiagnoseField>> cateList = diagnosefieldService.getAllDiagnoseFieldViaList();
+			model.addAttribute("fieldList", cateList);
+			return "YH/diagnosefieldmanage";
+		}
+	}
+	
+	
+	
 	@RequestMapping(value = "/upCate", method = RequestMethod.POST)
 	public String doUpCate(Model model, HttpServletRequest request) {
 		try {
@@ -190,6 +251,27 @@ public class HomeController {
 			return "YH/leibie03";
 		}
 	}
+	@RequestMapping(value = "/upField", method = RequestMethod.POST)
+	public String doUpField(Model model, HttpServletRequest request) {
+		try {
+			String cateId = request.getParameter("cateId");
+			String cateName = request.getParameter("cateName");
+			DiagnoseField category = diagnosefieldService.getDiagnoseFieldById(Integer.parseInt(cateId));
+			category.setName(cateName);
+			diagnosefieldService.updateDiagnoseField(category);
+
+			List<List<DiagnoseField>> cateList = diagnosefieldService.getAllDiagnoseFieldViaList();
+			model.addAttribute("fieldList", cateList);
+			return "YH/diagnosefieldmanage";
+		} catch (Exception e) {
+			System.out.println(e);
+			return "YH/diagnosefieldmanage03";
+		}
+	}
+	
+	
+	
+	
 
 	@RequestMapping(value = "/deleteCate", method = RequestMethod.POST)
 	public String doDeleteCate(Model model, HttpServletRequest request) {
@@ -206,6 +288,25 @@ public class HomeController {
 			return "YH/leibie01";
 		}
 	}
+	
+	@RequestMapping(value = "/deleteField", method = RequestMethod.POST)
+	public String doDeleteField(Model model, HttpServletRequest request) {
+		try {
+			String cateId = request.getParameter("cateId");
+			DiagnoseField category = diagnosefieldService.getDiagnoseFieldById(Integer.parseInt(cateId));
+			diagnosefieldService.deleteDiagnoseField(category);
+
+			List<List<DiagnoseField>> cateList = diagnosefieldService.getAllDiagnoseFieldViaList();
+			model.addAttribute("fieldList", cateList);
+			return "YH/diagnosefieldmanage";
+		} catch (Exception e) {
+			System.out.println(e);
+			return "YH/diagnosefieldmanage03";
+		}
+	}
+	
+	
+	
 
 	@RequestMapping(value = "/WX/wenxian_upload", method = RequestMethod.GET)
 	public String getUploadPaper(Model model) {

@@ -3,8 +3,8 @@
 <%@	taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@	taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<%@ page language="java" import="dbsearch.service.impl.CategoryService"%>
-<%@ page language="java" import="dbsearch.domain.Category"%>
+<%@ page language="java" import="dbsearch.service.impl.DiagnoseFieldService"%>
+<%@ page language="java" import="dbsearch.domain.DiagnoseField"%>
 
 <%
 	String path = request.getContextPath();
@@ -29,7 +29,7 @@
 	        <tr border="none">
 	        	<td width="40%" height="60px;" align="center">
 	        		<input type="radio" name="insCate" value="1" checked="checked" onchange="rdChange()">
-	        		<span style="padding-left:5px;">添加失效形式</span>
+	        		<span style="padding-left:5px;">添加领域</span>
 	        	</td>
 	        	<td width="60%"  align="center">
 	        		<input type="text" id="str_insert_name" 
@@ -39,19 +39,20 @@
 	        <tr border="none">
 	        	<td width="40%" height="60px;" align="center">
 	        		<input type="radio" name="insCate" value="2" onchange="rdChange()">
-	        		<span style="padding-left:5px;">添加失效机理</span>
+	        		<span style="padding-left:5px;">添加子关键词</span>
 	        	</td>
 	        	<td align="center">
 	        		<select id="sltCate" style="height:30px;line-height:30px;align:center;display:none;">
-	        			<option style="align:center;" value="">--请选择失效形式--</option>
+	        			<option style="align:center;" value="">--请选择父关键词--</option>
 	        		<%!
-			 			List<List<Category>> menuList;
-			 			CategoryService categoryService;
-			 			Category tempCategory;
+			 			List<List<DiagnoseField>> menuList;
+	        		DiagnoseFieldService categoryService;
+	        		DiagnoseField tempCategory;
 			 		%>
 	        		<%
-			 			menuList=(List<List<Category>>)request.getAttribute("cateList");
-			 			List<Category> subList;
+			 			menuList=(List<List<DiagnoseField>>)request.getAttribute("fieldList");
+	        			System.out.println(menuList.size());
+			 			List<DiagnoseField> subList;
 			 			if(!menuList.isEmpty()){
 				 			for(int i=0;i<menuList.size();i++){
 				 				subList=menuList.get(i);
@@ -86,7 +87,7 @@
 		var strCate=$("#str_insert_name").val();
 		
 		if(strCate==null||strCate.trim()==""){
-			warning("请填写类别名称！");
+			warning("请填写领域名称！");
 			return;
 		}
 		if (selectedvalue == 1) {
@@ -94,7 +95,7 @@
 		}else {
 			parentId=$("#sltCate").val();
 			if(parentId==null||parentId==""){
-				warning("请选择失效形式！");
+				warning("请选择父关键词！");
 				return;
 			}
 		}
@@ -102,7 +103,7 @@
 		var url = "/dbsearchForTest/insField";
 		var data = {
 			"name" : strCate,
-			"parent":	parentId
+			"parent":parentId
 		};
 		$.ajax({
 			type : "post",
@@ -110,7 +111,7 @@
 			url : url,
 			data : data,
 			success : function(dates) {
-				$("#gly_main_lbgl").html(dates);//要刷新的div
+				$("#gly_main__fieldmanage").html(dates);//要刷新的div
 			},
 			error : function() {
 				
@@ -118,7 +119,7 @@
 		});
 	}
 	function doReturn(){
-		var url = "/dbsearchForTest/YH/leibie01";
+		var url = "/dbsearchForTest/YH/diagnosefieldmanage";
 		var data = {
 			
 		};
@@ -128,7 +129,7 @@
 			url : url,
 			data : data,
 			success : function(dates) {
-				$("#gly_main_lbgl").html(dates);//要刷新的div
+				$("#gly_main_fieldmanage").html(dates);//要刷新的div
 			},
 			error : function() {
 				
