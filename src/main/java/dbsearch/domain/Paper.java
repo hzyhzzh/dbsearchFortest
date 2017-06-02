@@ -27,7 +27,7 @@ public class Paper {
 	@JoinColumn(name = "owner")
 	private User owner;
 	@Column
-	private int fileStatus;//0ÒÑÌá½»(´ıÉóºË)£»1ÒÑÍ¨¹ı£»2Î´Í¨¹ı
+	private int fileStatus;//0ï¿½ï¿½ï¿½á½»(ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½1ï¿½ï¿½Í¨ï¿½ï¿½2Î´Í¨ï¿½ï¿½
 	public int getFileStatus() {
 		return fileStatus;
 	}
@@ -41,19 +41,19 @@ public class Paper {
 	
 	public static final String[] STR_LIST = 
     {
-    	"accidentName",//ÊÂ¹ÊÃû³Æ
-    	"accidentTime",//ÊÂ¹ÊÊ±¼ä
-    	"accidentLocation",//ÊÂ¹ÊµØµã
-    	"productor",//²úÆ·ÖÆÔìÉÌĞÅÏ¢
-		"failureEquipment",//Ê§Ğ§Éè±¸
-		"failureComponent",//Ê§Ğ§²¿¼ş
-		"applyEnv",//Ó¦ÓÃ»·¾³
-    	"failureBehave",//Ê§Ğ§ĞÎÊ½
-		"failureCause",//Ê§Ğ§»úÀí
-		"failureMaterial",//Ê§Ğ§²ÄÁÏÀàĞÍ
-		"materialInfo",//Ê§Ğ§²ÄÁÏĞÅÏ¢
-		"accidentDescription",//ÊÂ¹Ê¸ÅÀÀ
-		"analyseConclusion"//·ÖÎö½áÂÛ
+    	"accidentName",//ï¿½Â¹ï¿½ï¿½ï¿½ï¿½
+    	"accidentTime",//ï¿½Â¹ï¿½Ê±ï¿½ï¿½
+    	"accidentLocation",//ï¿½Â¹ÊµØµï¿½
+    	"productor",//ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+		"failureEquipment",//Ê§Ğ§ï¿½è±¸
+		"failureComponent",//Ê§Ğ§ï¿½ï¿½ï¿½ï¿½
+		"applyEnv",//Ó¦ï¿½Ã»ï¿½ï¿½ï¿½
+    	"failureBehave",//Ê§Ğ§ï¿½ï¿½Ê½
+		"failureCause",//Ê§Ğ§ï¿½ï¿½ï¿½ï¿½
+		"failureMaterial",//Ê§Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		"materialInfo",//Ê§Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+		"accidentDescription",//ï¿½Â¹Ê¸ï¿½ï¿½ï¿½
+		"analyseConclusion"//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     };
 	
 	// paper metadata

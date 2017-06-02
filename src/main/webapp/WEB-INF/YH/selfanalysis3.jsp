@@ -28,6 +28,7 @@
 <script src="js/jquery.js"></script>
 <script src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/pptBox.js"></script>
+<script type="text/javascript" src="js/spin.min.js"></script>
 <script type="text/javascript" src="js/md5.js"></script>
 <link href="css/mricode.pagination.css" rel="stylesheet" />
 <link href="css/css.css" rel="stylesheet" type="text/css" />
@@ -178,6 +179,22 @@
 		<form>
 			<input type="button" class="button1" value="领域分类" onclick="">
 			<input type="button" class="button1" value="材料分类" onclick="">
+			<%
+			if(request.getParameter("fieldname")!=null & request.getParameter("failurequipment")!=null)
+			{
+				String fieldname=(String)request.getParameter("fieldname"); 
+				fieldname = new String(fieldname.getBytes("iso-8859-1"),"UTF-8");
+			
+				String failurequipment=(String)request.getParameter("failurequipment"); 
+				failurequipment = new String(failurequipment.getBytes("iso-8859-1"),"UTF-8");
+			%>
+		 	<input  id="failurebehaviour" type ="hidden" value="">
+		 	<input  id="fieldname" type ="hidden" value=<%=fieldname%>>
+		 	<input  id="failurequipment" type ="hidden" value=<%=failurequipment%>>
+		 	<%
+		 	}
+		 	%>
+		 	
 		</form>		
 	</div>
 
@@ -216,7 +233,10 @@
 					<h4 style="margin-top:70px;">请选择失效形式</h4>
 					<div style="margin:0 auto;text-align:center;line-height:2em;font-size:14px;color:#7B7B7B;">
 						<form>
-						<%
+						<%				
+							
+							
+							
 							List<List<DiagnoseField>> menuList;
 							menuList = (List<List<DiagnoseField>>) request.getAttribute("FieldList");
 							for(int i = 0;i<menuList.size();++i)
@@ -225,11 +245,9 @@
 									{
 						%>
 
-									 <input type="radio" name="equipment" value=<%= menuList.get(i).get(j).getName()%>>
+									 <input type="radio" name="equipment" value=<%= menuList.get(i).get(j).getName()%> onclick="chred(this);">
 									 <%=menuList.get(i).get(j).getName()%><br>
-									<!--<input type="radio" name="equipment" value="qlj">腐蚀<br>
-									 <input type="radio" name="equipment" value="jy">磨损<br>
-									 <input type="radio" name="equipment" value="qt">断裂<br><br><br><br>		  --> 			 
+												 
 		 				
 		 				<%
 									}
@@ -238,6 +256,8 @@
 									continue;
 		 				%>
 		 				</form> 
+		 				
+		 				
 					</div>
 				</div>
 				<div class="rightside" id="step1hthk" style="display:block">
@@ -249,6 +269,7 @@
 						<div style="margin-top:30px;">
 							<input type="submit" value="下一步" class="button2" onclick="step3_step4()"> 
 						</div>
+						<div id="wait_gif"></div>
 					</div>
 				</div>
 			</div>
@@ -262,12 +283,54 @@
 	</div>
 </body>
 <script type="text/javascript">
+var opts = {
+		  lines: 7 // The number of lines to draw
+		, length: 2 // The length of each line
+		, width: 14 // The line thickness
+		, radius: 21 // The radius of the inner circle
+		, scale: 1 // Scales overall size of the spinner
+		, corners: 1 // Corner roundness (0..1)
+		, color: '#000' // #rgb or #rrggbb or array of colors
+		, opacity: 0.25 // Opacity of the lines
+		, rotate: 0 // The rotation offset
+		, direction: 1 // 1: clockwise, -1: counterclockwise
+		, speed: 0.9 // Rounds per second
+		, trail: 60 // Afterglow percentage
+		, fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+		, zIndex: 2e9 // The z-index (defaults to 2000000000)
+		, className: 'spinner' // The CSS class to assign to the spinner
+		, top: '50%' // Top position relative to parent
+		, left: '50%' // Left position relative to parent
+		, shadow: false // Whether to render a shadow
+		, hwaccel: false // Whether to use hardware acceleration
+		, position: 'absolute' // Element positioning
+		}
+	
+	
+	
+	
 	function step3_step2(){
 		location.href="/dbsearchForTest/YH/selfanalysis";
 	}
 	function step3_step4(){
-		location.href="/dbsearchForTest/YH/selfanalysis4";
+		if($("#failurebehaviour").val()=="")
+		{
+			alert("请选择失效形式")
+		}
+		else
+		{	
+			var target = document.getElementById('wait_gif')
+			var spinner = new Spinner().spin()
+			target.appendChild(spinner.el)
+			var b= "/dbsearchForTest/YH/selfanalysis4?fieldname="+$("#fieldname").val()+"&"+"failurequipment="+$("#failurequipment").val()+"&"+"failurebehaviour="+$("#failurebehaviour").val()
+			location.href=b;
+		}
+		
+		
 	}	
+	function chred(ele){
+		$("#failurebehaviour").val(ele.value)
+	}
 
 </script>
 </html>

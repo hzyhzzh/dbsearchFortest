@@ -71,35 +71,19 @@ span {
 </head>
 
 <body>
-	<div
+	<div id="wenxian_list"
 		style="width: 90%; background-color: rgb(255, 255, 255); border: solid 1px rgb(200, 200, 200); margin-bottom: 30px; margin-left: 2px;">
 		<%
 			List<Paper> resultList;
-		%>
-		<%
-			resultList = (List<Paper>) request.getAttribute("resultList");
+			resultList = (List<Paper>) request.getAttribute("resultList");	    	
 			if (resultList.isEmpty()) {
 		%>
 		<div style="padding: 20px;">---无查询结果---</div>
 		<%
 			} else {
 		%>
-		<table width="100%" height="50px" border="0">
-			<tr>
-				<td width="10px" align="left"></td>
-				<td><span onclick="time_order()">按时间排序&nbsp; <image
-							id="tAs" height="15px" src="images/ascending.png"> <image
-							id="tDs" height="15px" style="display:none;"
-							src="images/Descending.png"></span></td>
-				<td><span onclick="download_order()">按下载量排序&nbsp; <image
-							id="dAs" height="15px" src="images/ascending.png"> <image
-							id="dDs" height="15px" style="display:none;"
-							src="images/Descending.png"></span></td>
-
-			</tr>
-		</table>
 		<div class="title_div"></div>
-
+		
 		<c:forEach var="paperItem" items="${resultList}" varStatus="status">
 			<div class="ele_div">
 				<table style="width: 100%; table-layout: fixed; border: 0;">
@@ -155,21 +139,7 @@ span {
 							</table>
 						</td>
 
-						<!-- 		</tr>
-					<tr style="font-size:2px;color:#7B7B7B">
-						<td style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">${paperItem.accidentDescription}
-							
-						</td> -->
-					</tr>
-					<!-- <tr style="font-size: 6px; color: #ADADAD">
-						<td width="100%" rowspan="1" valign="bottom">
-							${paperItem.failureEquipment} &nbsp;|&nbsp上传者:;
-							${paperItem.getOwner().getEmail()}</td>
-						<td><input type="button"
-							style="margin-right: 100px; float: right" name="submit"
-							class="submit-btn" value="查看概要"
-							onclick="showPaper(${paperItem.id})" /></td>
-					</tr>-->
+
 					<tr>
 						<td width="15px"></td>
 
@@ -183,36 +153,9 @@ span {
 	</div>
 </body>
 <script type="text/javascript">
-var time_click = 1
-var download_click = 1
 function showPaper(id){
 	window.location.href = "/dbsearchForTest/showPaper?paperId="+id;
 }
-function time_order(){
-	time_click = (time_click + 1)%2
-	if(!time_click){
-		$("#tDs").show();
-		$("#tAs").hide();
-	}
-	else{
-		$("#tAs").show()
-		$("#tDs").hide();
-	}
-	
-}
-function download_order(){
-	download_click = (download_click + 1)%2
-	if(!download_click){
-		$("#dDs").show();
-		$("#dAs").hide();
-	}
-	else{
-		$("#dAs").show()
-		$("#dDs").hide();
-	}
-	
-}
-
 
 </script>
 </html>

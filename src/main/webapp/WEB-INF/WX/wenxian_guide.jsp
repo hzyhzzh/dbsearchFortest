@@ -178,6 +178,7 @@ font-weight:bold;
 			List<Paper> resultList;
 		%>
 		<%
+		
 			if(((List<Paper>)request.getAttribute("resultList")).size()>3){
 				Collections.reverse(((List<Paper>)request.getAttribute("resultList")));	
 				resultList=((List<Paper>)request.getAttribute("resultList")).subList(0,2);
@@ -198,22 +199,7 @@ font-weight:bold;
 		</div>
 	</div>
 	<div style="clear: both;"></div>
-	<!--  <div class="wmzxd">
-    	<div class="wmzxd_content">
-    		<span style="font-weight:bold;font-size:24px;font-familly:'微软雅黑'">关于我们</span>
-    		<div style="margin-bottom:10px;margin-top:10px;">
-    		<img src="images/huanggtouming.png"/>
-            </div>
-            <div class="wmzxd_info">
-            	<div style="margin-bottom:40px"><img src="images/shouye_bottom.png" /></div>
-                <div style="width:1000px;">
-                	<p style="width:535px;text-align:center;color:#404040; font-size:15px;margin-left:240px;">我们致力于将机械领域内的失效案例联合互联网，从失效数据出发，进行失效机理物理分析，确定失效模式和失效机理。再进行失效根因分析，提出改进方案，实施形成预防措施。</p>
-                </div>
-            </div>
-        </div>
-        
-    </div>-->
-	
+
 	
 	
 	<div style="clear: both;"></div>

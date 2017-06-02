@@ -5,14 +5,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.management.modelmbean.ModelMBeanInfoSupport;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -36,10 +40,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.sun.mail.handlers.image_gif;
+
 import dbsearch.domain.Category;
 import dbsearch.domain.DiagnoseField;
 import dbsearch.domain.Paper;
 import dbsearch.domain.User;
+import dbsearch.domain.repository.PaperRepository;
 import dbsearch.service.impl.CategoryService;
 import dbsearch.service.impl.DiagnoseFieldService;
 import dbsearch.service.impl.PaperService;
@@ -87,21 +94,44 @@ public class HomeController {
 		//自我诊断
 		
 		List<DiagnoseField> parentFieldList = diagnosefieldService.getDiagnoseFieldByParent(1);
+	//	List<DiagnoseField> parentMaterialList = diagnosefieldService.getDiagnoseFieldByParent(20);
 		model.addAttribute("parentFieldList", parentFieldList);
 		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
 		model.addAttribute("FieldList", FieldList);
+		//model.addAttribute("parentMaterialList", parentMaterialList);
 		return "YH/selfanalysis";
 	}
 	
 	@RequestMapping("/YH/selfanalysis3")
 	public String selfamalysis3(Model model, HttpServletRequest request) {
 		//自我诊断,步骤3
-		
 		List<DiagnoseField> parentFieldList = diagnosefieldService.getDiagnoseFieldByParent(1);
 		model.addAttribute("parentFieldList", parentFieldList);
 		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
-		model.addAttribute("FieldList", FieldList);
+		model.addAttribute("FieldList", FieldList);	
+	//	List<DiagnoseField> parentMaterialList = diagnosefieldService.getDiagnoseFieldByParent(20);
+	//	model.addAttribute("parentMaterialList", parentMaterialList);
 		return "YH/selfanalysis3";
+	
+	}
+	
+
+	@RequestMapping(value ="/YH/selfanalysis4")
+	public String selfamalysis4(Model model, HttpServletRequest request) {
+		//自我诊断,步骤4
+	//	List<DiagnoseField> parentMaterialList = diagnosefieldService.getDiagnoseFieldByParent(20);
+	//	model.addAttribute("parentMaterialList", parentMaterialList);
+		List<DiagnoseField> parentFieldList = diagnosefieldService.getDiagnoseFieldByParent(1);
+		model.addAttribute("parentFieldList", parentFieldList);
+		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
+		
+		model.addAttribute("FieldList", FieldList);	
+		if (!model.containsAttribute("resultList")) {
+			List resultList = paperService.getAllPaper();
+			model.addAttribute("resultList", resultList);
+		}
+		
+		return "YH/selfanalysis4";
 	
 	}
 	
@@ -118,10 +148,17 @@ public class HomeController {
 	
 	@RequestMapping("/index1")
 	public String welcome(Model model, HttpServletRequest request) {
-		if (!model.containsAttribute("resultList")) {
-			List resultList = paperService.getAllPaper();
+		if (!model.containsAttribute("resultList")) {	
+			List<Paper> resultList = paperService.getAllPaper();
 			model.addAttribute("resultList", resultList);
+			
 		}
+		String order = request.getParameter("order");
+		if(order != null)
+			model.addAttribute("order",order);
+		
+		
+		
 		List<Category> parentCateList = categoryService.getCategoryByParent(1);
 		model.addAttribute("parentCateList", parentCateList);
 		List<List<Category>> cateList = categoryService.getAllCategoryViaList();

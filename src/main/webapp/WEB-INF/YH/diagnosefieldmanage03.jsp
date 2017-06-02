@@ -61,6 +61,7 @@ function doUpCate(){
 		data : data,
 		success : function(dates) {
 			$("#gly_main_fieldmanage").html(dates);//要刷新的div
+			alert("修改成功");
 		},
 		error : function() {
 			

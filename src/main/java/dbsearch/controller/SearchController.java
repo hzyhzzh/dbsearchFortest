@@ -50,7 +50,10 @@ public class SearchController {
 			searchMap=searchService.addCate(searchMap, request.getParameter("category"));
 		}
 		int pageIndex=Integer.parseInt(request.getParameter("pageIndex"));
-		List resultList=searchService.getSearchedPaper(pageIndex, searchMap, con);
+		int order = Integer.parseInt(request.getParameter("order"));
+		
+		List<Paper> resultList=searchService.getSearchedPaper(pageIndex, searchMap, con,order);
+		
 		model.addAttribute("resultList", resultList);
 		return "forward:/WX/wenxian_list";
 	}
@@ -158,10 +161,10 @@ public class SearchController {
 			}
 			Category tempCate=categoryService.getCategoryById(id);
 			int parentId=tempCate.getParent().getId();
-			if(parentId!=1){//ÕâÊÇÒ»¸ö¶þ¼¶±êÌâ
+			if(parentId!=1){//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				model.addAttribute("cate_F",parentId);
 				model.addAttribute("cate_S",cateId);
-			}else{//ÕâÊÇÒ»¸öÒ»¼¶±êÌâ
+			}else{//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				model.addAttribute("cate_F",cateId);
 				model.addAttribute("cate_S",0);
 			}

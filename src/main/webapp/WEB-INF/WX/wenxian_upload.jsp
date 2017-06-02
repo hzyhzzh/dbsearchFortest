@@ -212,40 +212,6 @@ tr td {
         paginationType: 'progress'
     });
     </script>
-	<!-- <script>
-		var box = new PPTBox();
-		box.width = 700; //宽度
-		box.height = 450;//高度
-		box.autoplayer = 4;//自动播放间隔时间
-
-		//box.add({"url":"图片地址","title":"悬浮标题","href":"链接地址"})
-		box.add({
-			"url" : "images/upload_step1.png",
-			//"href" : "#",
-			"title" : "悬浮提示标题1"
-		})
-		box.add({
-			"url" : "images/upload_step2.png",
-			//"href" : "#",
-			"title" : "悬浮提示标题2"
-		})
-		box.add({
-			"url" : "images/upload_step3.png",
-			//"href" : "#",
-			"title" : "悬浮提示标题3"
-		})
-		box.add({
-			"url" : "images/upload_step4.png",
-			//"href" : "#",
-			"title" : "悬浮提示标题1"
-		})
-		box.add({
-			"url" : "images/upload_step5.png",
-			//"href" : "#",
-			"title" : "悬浮提示标题1"
-		})
-		box.show();
-	</script> -->
 
 
 	<input type="button" class="submit-btn" onclick="show_form()"

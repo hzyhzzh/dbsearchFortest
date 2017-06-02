@@ -25,7 +25,6 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 <script src="js/jquery.js"></script>
-<script src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/pptBox.js"></script>
 <script type="text/javascript" src="js/md5.js"></script>
 <link href="css/mricode.pagination.css" rel="stylesheet" />
@@ -194,8 +193,10 @@
 	</div>
 	<div class="classification">
 		<form>
-			<input type="button" class="button1" value="领域分类" onclick="">
-			<input type="button" class="button1" value="材料分类" onclick="">
+			<input id="fieldclassify" type="button" class="button1" value="领域分类" >
+			<input id="materialclassify" type="button" class="button1" value="材料分类" >
+			<input id = "fieldname" type ="hidden" name="fieldname" value="">
+		 	<input id = "failurequipment" type ="hidden" name =  "failurequipment" value="">
 		</form>		
 	</div>
 	
@@ -227,14 +228,16 @@
 		<%
 			List<List<DiagnoseField>> menuList;
 			List<DiagnoseField> parentFieldList;
+			List<DiagnoseField> parentMaterialList;
 			List<DiagnoseField> subList;
 			DiagnoseFieldService diagnosefieldService;
 			DiagnoseField tempCategory;
 			menuList = (List<List<DiagnoseField>>) request.getAttribute("FieldList");
 			parentFieldList = (List<DiagnoseField>)request.getAttribute("parentFieldList");
+		//	parentMaterialList = (List<DiagnoseField>)request.getAttribute("parentMaterialList");
 			String step2name;
 		%>
-		<div class="container" style="width:885px;height:588px;">
+		<div id="container_field" class="container" style="width:885px;height:588px;">
 			<div style="border:1px solid #2894FF;margin:100px auto; width:760px;height:400px">
 				<div class="leftside">
 					<form>
@@ -246,7 +249,7 @@
 										if(!name.equals("失效形式") ){
 								%>
 								<tr>
-									<td><input  type="button" class="button2" 
+									<td><input  type="button" class="button2" id="field<%=k%>"
 									value=<%=parentFieldList.get(k).getName() %> onclick="step1_step2(<%=k%>)"></td>
 								</tr>	
 								<%
@@ -287,7 +290,10 @@
 					<%
 							}
 					%>
-						 <input type="button" value="下一步" class="button3" onclick="step2_step3()"> 
+						
+						 <input type="button" value="下一步" class="button3" onclick = "step2_step3()"> 
+						 
+					
 		 				</form> 
 		 				
 					</div>
@@ -308,6 +314,14 @@
 </body>
 <script type="text/javascript">
 
+	$("#fieldclassify").click(function(){
+		$("#step_wd1").text("失效领域")
+		
+	});
+	$("#materialclassify").click(function(){
+		$("#step_wd1").text("失效材料")		
+	});
+
 	function step1_step2(a){
 		$("#step1").hide();
 		$("#step_pic1").css("background-image","url(images/stepsw.png)");
@@ -315,48 +329,44 @@
 		$("#step_wd1").css("color","#5B5B5B");
 		$("#step_wdw").css("color","#2894FF");
 		var c = "#" + a
+		var field = "#field"+a
 		var len = <%=len%>
-		for (var i = 0;i<len-1;++i)
+		for (var i = 0;i<len;++i)
 		{
 			var b = "#" + i
 			 $(b).hide();
 		}
-		 $(c).show();//怎么让之前的隐藏？？
+		 $(c).show();
+		 $("#fieldname").val($(field).val()) 
+		
 	}
 
-	function step1_step2hthk(){
-		document.getElementById("step1").style.display="none";
-		document.getElementById("step2hthk").style.display="block";
-		document.getElementById("step2syhg").style.display="none";
-		document.getElementById("step_pic1").style.background="url(images/stepsw.png)";
-		document.getElementById("step_pic2").style.background="url(images/stepsb.png)";
-		document.getElementById("step_wd1").style.color="#5B5B5B";
-		document.getElementById("step_wd2").style.color="#2894FF";
-		
-		
-		
-		
-	}
-	function step1_step2syhg(){
-		document.getElementById("step1").style.display="none";
-		document.getElementById("step2hthk").style.display="none";
-		document.getElementById("step2syhg").style.display="block";
-		document.getElementById("step_pic1").style.background="url(images/stepsw.png)";
-		document.getElementById("step_pic2").style.background="url(images/stepsb.png)";
-		document.getElementById("step_wd1").style.color="#5B5B5B";
-		document.getElementById("step_wd2").style.color="#2894FF";
-	}	
+	
 	function step2_step3(){
-		location.href="/dbsearchForTest/YH/selfanalysis3";
+		if( $("#failurequipment").val()=="" )
+		{
+			alert("请选择对应的领域或者设备");
+		}
+		else
+		{
+			var b= "/dbsearchForTest/YH/selfanalysis3?fieldname="+$("#fieldname").val()+"&"+"failurequipment="+$("#failurequipment").val()
+			location.href=b;
+		}
+				
+		
+		
+		
+		
 	}
 	function chred(ele){
 		var f = ele.checked;
-		ele.parentNode.style.background="red";
 		var radios = document.getElementsByName(ele.name);
+		$("#failurequipment").val(ele.value)
 		for(var i = 0; i<radios.length; i++){
 		if(radios[i].checked == false){
 		radios[i].parentNode.style.background="#fff";
 		}
+	
 		}
 		}
 </script>

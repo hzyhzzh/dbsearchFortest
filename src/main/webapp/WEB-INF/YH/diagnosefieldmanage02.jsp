@@ -112,6 +112,7 @@
 			data : data,
 			success : function(dates) {
 				$("#gly_main__fieldmanage").html(dates);//要刷新的div
+				alert("添加成功");
 			},
 			error : function() {
 				

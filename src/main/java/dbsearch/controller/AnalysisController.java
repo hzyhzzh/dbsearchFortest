@@ -188,7 +188,7 @@ public class AnalysisController {
 		}
 		searchMap=searchService.addCate(searchMap, cateId);
 		
-		List resultList=searchService.getSearchedPaper(pageIndex, searchMap, "1111111111111");
+		List resultList=searchService.getSearchedPaper(pageIndex, searchMap, "1111111111111",0);
 		model.addAttribute("resultList", resultList);
 		
 		return "/YH/tjfx_tb";

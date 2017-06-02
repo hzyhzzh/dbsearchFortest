@@ -154,7 +154,7 @@ function doUpdate(){
 	 	}
  	}
 	if(cateId==null){
-		warning("请选择要修改的类别！");
+		alert("请选择要修改的类别！");
 		return;
 	}
 	
@@ -201,6 +201,7 @@ function doDelete(){
 			data : data,
 			success : function(dates) {
 				$("#gly_main_fieldmanage").html(dates);//要刷新的div
+				alert("删除成功");
 			},
 			error : function() {
 				

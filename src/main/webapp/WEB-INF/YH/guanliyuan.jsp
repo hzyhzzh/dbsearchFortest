@@ -372,6 +372,9 @@
 						</tr>
 						
 					</table>
+					<!-- 上传文件的图片 -->
+					
+					
 				</div>
 				<div id="gly_main_success" style="display: none;">
 					<label>密码修改成功</label>

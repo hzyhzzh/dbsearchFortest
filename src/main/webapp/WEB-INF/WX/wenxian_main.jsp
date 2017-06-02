@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="dbsearch.domain.Paper"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -55,11 +56,49 @@
 			<jsp:include page="wenxian_menu.jsp" flush="true" />
 		</div>
 		<div id="list_wrap">
+			<table width="100%" height="50px" border="0">
+			<%
+				String strorder = (String)request.getAttribute("order");	
+				int order = 0;
+				if(strorder != null)
+					order = Integer.parseInt(strorder);
+			%>
+			<tr>
+				<td width="10px" align="left"></td>
+				<td><span onclick="time_order()">按时间排序&nbsp; 
+				<%
+					if(order ==1){
+				%>
+					<image
+					id="tAs" height="15px" src="images/ascending.png"> <image
+					id="tDs" height="15px" style="display:none;" src="images/Descending.png"></span></td>
+					
+				<%
+					}
+					else{
+						
+					
+				%>
+				<image
+					id="tAs" height="15px" style="display:none;" src="images/ascending.png"> <image
+					id="tDs" height="15px" src="images/Descending.png"></span></td>
+				<%
+					}
+				%>
+				<!-- <td><span onclick="download_order()">按下载量排序&nbsp; <image
+							id="dAs" height="15px" src="images/ascending.png"> <image
+							id="dDs" height="15px" style="display:none;"
+							src="images/Descending.png"></span></td> -->
+
+			</tr>
+			</table>
 			<div id="paperContent"><jsp:include page="wenxian_list.jsp"
 					flush="true" /></div>
 
 			<!-- 			分页设置                        -->
-			<div id="pageBar" class="m-pagination" style="margin: 0 auto;"></div>
+			
+			<div id="pageBar"  class="m-pagination"></div>  
+			
 		</div>
 	</div>
 	<div style="clear: both;"></div>
@@ -85,8 +124,12 @@ var materialInfo= $("#materialInfo").val();
 var accidentDescription= $("#accidentDescription").val();
 var analyseConclusion= $("#analyseConclusion").val();
 var con="and";
+var order = <%=order%>
 
 currentPageIndex = 0;
+loadPageBar(false,0);
+
+
 function loadPageBar(forceReload, startIndex) {
 	var searchData = {
 			accidentName: accidentName,
@@ -107,7 +150,9 @@ function loadPageBar(forceReload, startIndex) {
 			con: con
 		};
 	startIndex = startIndex || 0;
+	
 	currentPageIndex = startIndex;
+	
 	if ($("#pageBar").pagination()) {
 		if (forceReload){
 			$("#pageBar").pagination('destroy');
@@ -115,29 +160,31 @@ function loadPageBar(forceReload, startIndex) {
 		else
 			return;
 	}
-	$.ajax({
-		type : "post",
-		async : false, //同步请求
-		url : "/dbsearchForTest/searchCount",
-		data : searchData,
-		success : function(data, status) {
-			$("#pageBar").pagination({
-				pageSize : 10,
-				total : data,
-				firstBtnText : '首页',
-				lastBtnText : '尾页',
-				prevBtnText : '上一页',
-				nextBtnText : '下一页',
-				pageIndex : startIndex
-			}).on("pageClicked", function(event, pageObj) {
-				currentPageIndex = pageObj.pageIndex;
-	 			loadPaperList(currentPageIndex + 1);
-			});
-	 		loadPaperList(startIndex + 1);
-		}
-	});
+	
+		$.ajax({
+			type : "post",
+			async : false, //同步请求
+			url : "/dbsearchForTest/searchCount",
+			data : searchData,
+			success : function(data, status) {
+				$("#pageBar").pagination({
+					pageSize : 10,
+					total : data,
+					firstBtnText : '首页',
+					lastBtnText : '尾页',
+					prevBtnText : '上一页',
+					nextBtnText : '下一页',
+					pageIndex : startIndex
+				}).on("pageClicked", function(event, pageObj) {
+					currentPageIndex = pageObj.pageIndex;
+		 			loadPaperList(currentPageIndex + 1);
+				});
+		 		loadPaperList(startIndex + 1);
+			}
+		});
+	
 }
-loadPageBar(false,0);
+
 
 
 function loadPaperList(pageIndex){
@@ -158,15 +205,20 @@ function loadPaperList(pageIndex){
 			accidentDescription: accidentDescription,
 			analyseConclusion: analyseConclusion,
 			con: con,
-			pageIndex: pageIndex
+			pageIndex: pageIndex,
+			order:order.toString()
 		};
+	
 	var _url =  "/dbsearchForTest/search";
+	
 	$.ajax({
 		type : "post",
 		async : false, //同步请求
 		url : _url,
 		data : searchData,
+		
 		success : function(datas) {
+			
 			$("#paperContent").html(datas);//要刷新的div
 		},
 		error : function() {
@@ -175,5 +227,39 @@ function loadPaperList(pageIndex){
 	});
 }	
 
+
+
+function time_order(){
+	
+	if(!order){
+		//按时间排序
+		location.href="/dbsearchForTest/index1?order=1";
+		
+		
+		
+	}
+	else{
+		location.href="/dbsearchForTest/index1?order=0";
+		
+		
+	}
+	
+	
+	
+}
+function download_order(){
+	download_click = (download_click + 1)%2
+	if(!download_click){
+		$("#dDs").show();
+		$("#dAs").hide();
+		order = 0;
+	}
+	else{
+		$("#dAs").show()
+		$("#dDs").hide();
+		order = 1;
+	}
+	
+}
 </script>
 </html>

@@ -34,13 +34,18 @@ public class SearchRepository {
 		return query.list();
 	}
 	
-	public List<Paper> getSearchedPaper(int pageIndex, Map sMap,String con) {
+	public List<Paper> getSearchedPaper(int pageIndex, Map sMap,String con,int order) {
 		String strSQL = "from paper where fileStatus=1";
 		String strSqlSplice=sqlSplice(sMap,con);
 		if(!strSqlSplice.trim().equals("")){
 			strSQL=strSQL+" and ("+strSqlSplice+")";
 		}
-		strSQL+=" order by uploadTime desc";
+		strSQL+=" order by uploadTime ";
+		//å‡åºè¿˜æ˜¯é™åº
+		if(order == 0)
+			strSQL+="desc";
+		else if(order ==1)
+			strSQL+="asc";
 		System.out.println(strSQL);
 		Session session = sessionFactory.openSession();
 		Query query = session.createQuery(strSQL);
@@ -128,7 +133,7 @@ public class SearchRepository {
 		return ((Long) query.uniqueResult()).intValue();
 	}
 	
-	public String sqlSplice(Map sMap,String con){//conÈ¡Öµand»òor
+	public String sqlSplice(Map sMap,String con){//conÈ¡Öµandï¿½ï¿½or
 		String retStr="";
 		String attrCon="and";
 		String[] STR_LIST=Paper.STR_LIST;
@@ -155,7 +160,7 @@ public class SearchRepository {
 		return retStr;
 	}
 	
-	public String sqlSpliceWDGL(Map sMap,String con){//conÈ¡Öµand»òor
+	public String sqlSpliceWDGL(Map sMap,String con){//conÈ¡Öµandï¿½ï¿½or
 		String retStr="";
 		String[] STR_LIST=Paper.STR_LIST;
 
@@ -193,7 +198,7 @@ public class SearchRepository {
 				}
 			}else{
 				if(subStr==null||subStr.equals("")){
-					if("failureBehave".equals(attrStr)&&(("ÆäËû".equals(inStr)||"ÆäËü".equals(inStr)))){//Ê§Ğ§ĞÎÊ½£¬¡°ÆäËû¡±
+					if("failureBehave".equals(attrStr)&&(("ï¿½ï¿½ï¿½ï¿½".equals(inStr)||"ï¿½ï¿½ï¿½ï¿½".equals(inStr)))){//Ê§Ğ§ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 						List<Category> listCate=categoryRepository.getAllCateExcQT(inStr);
 						if(listCate!=null)for(int k=0;k<listCate.size();k++){
 							if(k==0){
@@ -218,26 +223,26 @@ public class SearchRepository {
 	
 	/**
 	 *
-	 *È¥µôÖ¸¶¨×Ö·û´®µÄ¿ªÍ·ºÍ½áÎ²µÄÖ¸¶¨×Ö·û
+	 *È¥ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ö·ï¿½Ä¿ï¿½Í·ï¿½Í½ï¿½Î²ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ö·ï¿½
 	 *
-	 * @param stream Òª´¦ÀíµÄ×Ö·û´®
-	 * @param trimstr ÒªÈ¥µôµÄ×Ö·û´®
-	 * @return ´¦ÀíºóµÄ×Ö·û´®
+	 * @param stream Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+	 * @param trimstr ÒªÈ¥ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+	 * @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
 	 */
 	public static String sideTrim(String stream, String trimstr) {
-		// null»òÕß¿Õ×Ö·û´®µÄÊ±ºò²»´¦Àí
+		// nullï¿½ï¿½ï¿½ß¿ï¿½ï¿½Ö·ï¿½ï¿½Ê±ï¿½ò²»´ï¿½ï¿½ï¿½
 	    if (stream == null || stream.length() == 0 || trimstr == null || trimstr.length() == 0) {
 	      return stream;
 	    }
 	    
-	    // ½áÊøÎ»ÖÃ
+	    // ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 	    int epos = 0;
 	    
-	    // Õı¹æ±í´ïÊ½
+	    // ï¿½ï¿½ï¿½ï¿½ï¿½Ê½
 	    String regpattern = "[" + trimstr + "]*+";
 	    Pattern pattern = Pattern.compile(regpattern, Pattern.CASE_INSENSITIVE);
 	 
-	    // È¥µô½áÎ²µÄÖ¸¶¨×Ö·û 
+	    // È¥ï¿½ï¿½ï¿½ï¿½Î²ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ö·ï¿½ 
 	    StringBuffer buffer = new StringBuffer(stream).reverse();
 	    Matcher matcher = pattern.matcher(buffer);
 	    if (matcher.lookingAt()) {
@@ -245,14 +250,14 @@ public class SearchRepository {
 	      stream = new StringBuffer(buffer.substring(epos)).reverse().toString();
 	    }
 	 
-	    // È¥µô¿ªÍ·µÄÖ¸¶¨×Ö·û 
+	    // È¥ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ö·ï¿½ 
 	    matcher = pattern.matcher(stream);
 	    if (matcher.lookingAt()) {
 	      epos = matcher.end();
 	      stream = stream.substring(epos);
 	    }
 	 
-	    // ·µ»Ø´¦ÀíºóµÄ×Ö·û´®
+	    // ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
 	    return stream;
 	  }
 }

@@ -22,8 +22,8 @@ public class SearchService {
 		return searchRepository.getAllSearchedPaper(sMap,con);
 	}
 	
-	public List<Paper> getSearchedPaper(int pageIndex, Map sMap,String con) {
-		return searchRepository.getSearchedPaper(pageIndex,sMap,con);
+	public List<Paper> getSearchedPaper(int pageIndex, Map sMap,String con,int order) {
+		return searchRepository.getSearchedPaper(pageIndex,sMap,con,order);
 	}
 	
 	public int getSearchedPaperCount(Map sMap,String con) {
@@ -64,11 +64,11 @@ public class SearchService {
 			}
 			Category tempCate=categoryService.getCategoryById(id);
 			int parentId=tempCate.getParent().getId();
-			if(parentId!=1){//ÕâÊÇÒ»¸ö¶þ¼¶±êÌâ
+			if(parentId!=1){//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //				searchMap.put("category", id);
 				searchMap.put("failureBehave", tempCate.getParent().getName());
 				searchMap.put("failureCause", tempCate.getName());
-			}else{//ÕâÊÇÒ»¸öÒ»¼¶±êÌâ
+			}else{//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //				List tempList=categoryService.getCategoryByParent(id);
 //				if(!tempList.isEmpty()){
 //					String tempCateStr="";

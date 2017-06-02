@@ -99,7 +99,7 @@
 			}
 		}
 		
-		var url = "/dbsearchForTest/insField";
+		var url = "/dbsearchForTest/insCate";
 		var data = {
 			"name" : strCate,
 			"parent":	parentId

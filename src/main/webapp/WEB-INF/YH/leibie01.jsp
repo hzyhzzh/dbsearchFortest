@@ -201,6 +201,7 @@ function doDelete(){
 			data : data,
 			success : function(dates) {
 				$("#gly_main_lbgl").html(dates);//要刷新的div
+				alert("删除成功");
 			},
 			error : function() {
 				
