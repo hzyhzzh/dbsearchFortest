@@ -148,7 +148,7 @@
 			7、微观组织分析表明失效区的微观组织结构球状化已经很严重<br>
 			8、管子在失效前已在高温下服役超过预计蠕变断裂时间的80%
 			</p>
-			<input style="margin-left:30px;margin-bottom:30px;" type="button" name="submit" class="submit-btn" value="点击查看细节"/>
+			<input style="margin-left:30px;margin-bottom:30px;" type="button" name="submit" class="submit-btn" value="点击查看细节" onclick="go_for_detail()"/>
 		</div>
 	</div>
 	<div style="clear: both;"></div>
@@ -158,7 +158,10 @@
 
 </body>
 <script type="text/javascript">
-
+function go_for_detail(){
+	alert("显示该案例的pdf");
+	//location.href="/dbsearchForTest/showPaper?paperId=1400";
+}
 
 </script>
 </html>

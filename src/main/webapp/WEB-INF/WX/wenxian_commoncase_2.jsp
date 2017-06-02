@@ -142,7 +142,7 @@
 			研究人员对失效的氧化锆陶瓷轴承进行了肉眼观察、光镜与扫描电镜观察以及拉曼光谱与化学成分分析。拉曼光谱分析结果显示了应力导致的相变（四方晶体转化为单斜晶体）的发生。EDS分析得知，腐蚀可能源于对轴承的清洗处理并且促进了相变。另外，由于机械载荷的作用以及可能存在的不精确装配导致轴承滚珠运行不平稳，不断有氧化锆碎屑粘到滚珠上，这都加速了失效的进程。因此可以得出结论：氧化铱稳定的四方氧化锆多晶体陶瓷（Y-TZP）并不适合用在滚动轴承上，尤其是在高温潮湿的条件下。
 			
 			</p>
-			<input style="margin-left:30px;margin-bottom:30px;" type="button" name="submit" class="submit-btn" value="点击查看细节"/>
+			<input style="margin-left:30px;margin-bottom:30px;" type="button" name="submit" class="submit-btn" onclick="go_for_detail()" value="点击查看细节"/>
 		</div>
 	</div>
 	<div style="clear: both;"></div>
@@ -153,6 +153,9 @@
 </body>
 <script type="text/javascript">
 
-
+function go_for_detail(){
+	alert("显示该案例的pdf");
+	//location.href="/dbsearchForTest/showPaper?paperId=1400";
+}
 </script>
 </html>

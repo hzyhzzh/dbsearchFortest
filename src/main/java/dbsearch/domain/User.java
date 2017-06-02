@@ -30,8 +30,7 @@ public class User {//�û���
 	@Column
 	private String randomCode = String.valueOf(Math.random());
 	
-	//���
-	private int score=-1;
+	private int score=0;
 
 	public String getRandomCode() {
 		return randomCode;

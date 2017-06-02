@@ -145,7 +145,7 @@
 			4、法兰断裂后，整个外壳出现了一个不平衡导致其它严重的断裂。因此，裂纹发生在基材属于二次断裂。
 			
 			</p>
-			<input style="margin-left:30px;margin-bottom:30px;" type="button" name="submit" class="submit-btn" value="点击查看细节"/>
+			<input style="margin-left:30px;margin-bottom:30px;" type="button" name="submit" class="submit-btn" value="点击查看细节" onclick="go_for_detail()"/>
 		</div>
 	</div>
 	<div style="clear: both;"></div>
@@ -155,7 +155,10 @@
 
 </body>
 <script type="text/javascript">
-
+function go_for_detail(){
+	alert("显示该案例的pdf");
+	//location.href="/dbsearchForTest/showPaper?paperId=1400";
+}
 
 </script>
 </html>
