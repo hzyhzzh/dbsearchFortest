@@ -19,6 +19,8 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	<mvc:resources location="/WEB-INF/resources/js/" mapping="/js/**" />
 	<mvc:resources location="/WEB-INF/resources/build/"
 		mapping="/build/**" />
+	<mvc:resources location="/WEB-INF/WX/FlexPaperViewer.swf"
+		mapping="/FlexPaperViewer.swf" />
 	<mvc:resources location="/WEB-INF/resources/web/"
 		mapping="/web/**" />
 	<mvc:resources location="/WEB-INF/resources/uploaded/"

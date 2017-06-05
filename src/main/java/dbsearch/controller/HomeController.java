@@ -47,6 +47,7 @@ import dbsearch.domain.DiagnoseField;
 import dbsearch.domain.Paper;
 import dbsearch.domain.User;
 import dbsearch.domain.repository.PaperRepository;
+import dbsearch.domain.ConvertSwf;
 import dbsearch.service.impl.CategoryService;
 import dbsearch.service.impl.DiagnoseFieldService;
 import dbsearch.service.impl.PaperService;
@@ -567,14 +568,25 @@ public class HomeController {
 				Word2pdf.convertFile(dir + File.separator + paper.getFilePath(),
 						dir+File.separator+paper.getFilePath().replaceFirst("docx$", "pdf").replaceFirst("doc$", "pdf"));
 			}
-			return "redirect:/web/viewer.html?file="+filePath;
+			//转换swf
+			File fileSWF=new File(dir+File.separator+paper.getFilePath().replaceFirst("docx$", "swf").replaceFirst("doc$", "swf"));
+			if(!fileSWF.exists()==true){
+				String filename = paper.getFilePath().replaceFirst("docx$", "pdf").replaceFirst("doc$", "pdf");
+				String outPath = new ConvertSwf().beginConvert(dir,filename);    
+				System.out.println("生成swf文件:" + outPath);
+			}
+			
+			//
+			String fileName= paper.getFilePath().replaceFirst("docx$", "swf").replaceFirst("doc$", "swf");
+			 return "redirect:WX/wenxian_viewswf?file="+fileName;
+			//return "redirect:/web/viewer.html?file="+filePath;
 		} catch (Exception e) {
 			System.out.println(e);
 			return "/index";
 		}
 
 	}
-
+	
 	@RequestMapping(value = "/ajax/pure_upload", method = RequestMethod.POST)
 	public @ResponseBody LinkedList<FileMeta> pureUpload(MultipartHttpServletRequest request,
 			HttpServletResponse response) {
