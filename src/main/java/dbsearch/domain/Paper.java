@@ -27,7 +27,7 @@ public class Paper {
 	@JoinColumn(name = "owner")
 	private User owner;
 	@Column
-	private int fileStatus;//0���ύ(�����)��1��ͨ��2δͨ��
+	private int fileStatus;
 	public int getFileStatus() {
 		return fileStatus;
 	}
@@ -92,11 +92,22 @@ public class Paper {
 	private String applyEnv;
 	@Column(length = 25000)
 	private String filePath;
-
+	//图片路径
+	private String picPath="";
+	
+	public String getpicPath(){
+		return picPath;
+	}
+	
+	
 	public int getId() {
 		return id;
 	}
-
+	
+	public void setpicPath(String picPath){
+		this.picPath = picPath;
+	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}

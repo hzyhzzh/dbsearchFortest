@@ -41,7 +41,15 @@
 <body>
    <%
    	String filepath = request.getParameter("file");
-   %>
+    String user = (String)request.getAttribute("user");
+    %>
+   	<script type="text/javascript">   
+   	var user = "<%=session.getAttribute("user")%>";
+	if (user == null || user == "null") {
+		alert("请先登陆")
+		location.href="/dbsearchForTest/index";
+	} 
+   	</script>   
    <div class="div_head_container">
 		<jsp:include page="../YH/pagehead.jsp" flush="true" />
 	</div>

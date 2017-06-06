@@ -10,21 +10,24 @@ public class FileParse {
 
 	public static void main(String[] args) {
 		try {
-			fillModel(new Paper(), "E:\\case1.doc");
+			fillModel(new Paper(), "E:\\case1.doc","","");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public static void fillModel(Paper paper, String path) throws Exception {
+	public static void fillModel(Paper paper, String path,String fileNameNoExt,String dir) throws Exception {
 		String text;
+		String picname ="";
 		if (path.endsWith(".pdf")) {
 			text = PdfParse.getText(path);
 		} else if (path.endsWith(".doc") || path.endsWith(".docx")) {
 			text = WordParse.getText(path);
+			picname = WordParse.extractPic(path,fileNameNoExt,dir);
 		} else
 			throw new Exception("source file is not pdf or word format");
+		paper.setpicPath(picname);
 		int index = 0;
 		String[] fieldName = {"事故名称","事故时间","事故地点","产品制造商信息","失效设备","失效部件","应用环境","失效形式","失效机理","失效材料类型","失效材料信息",
 				"事故概览","失效分析目的","分析方法","分析结论"};

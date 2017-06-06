@@ -227,7 +227,7 @@
 			</div>
 		</div>
 		<% 
-						int paper_id = 5;
+						
 						String fieldname=(String)request.getParameter("fieldname");//失效领域
 						fieldname = new String(fieldname.getBytes("iso-8859-1"),"utf-8");
 						String failurequipment=(String)request.getParameter("failurequipment");//失效部件
@@ -240,6 +240,8 @@
 						resultList = (List<Paper>) request.getAttribute("resultList");
 						Map<String,Integer> items = new HashMap<String,Integer>();
 						
+						String caseList = "";
+						
 						for(int i =0;i<resultList.size();++i)
 						{
 							String failureequipment = resultList.get(i).getFailureEquipment();
@@ -250,10 +252,15 @@
 									& failurebehave.contains(failurebehaviour))
 							{
 								sum ++;
+								if(sum == 1)
+									caseList= caseList + String.valueOf(resultList.get(i).getId());
+								else
+									caseList= caseList + ',' + String.valueOf(resultList.get(i).getId());
+
 								if(!items.containsKey(failurecause))
 									{
 										items.put(failurecause, new Integer(1));
-										paper_id = resultList.get(i).getId();
+										
 									}
 								else
 								{
@@ -276,6 +283,7 @@
 					        return (o2.getValue() - o1.getValue());
 					    }
 					});
+					
 					%>
 		<input  id="fieldname" type ="hidden" value=<%=fieldname%>>
 		<input  id="failurequipment" type ="hidden" value=<%=failurequipment%>>
@@ -288,8 +296,10 @@
 						int size = list.size()<3?list.size():3;
 				
 						for(int i =0;i<size;++i){
+						float rate = (float)list.get(i).getValue()/sum;
+							
 					%>
-					<p><%=list.get(i).getKey()%>.......<%=(float)list.get(i).getValue()/sum * 100%>%</p>
+					<p><%=list.get(i).getKey()%>.......<%=(float)(Math.round(rate*1000))/1000 * 100%>%</p>
 					<%
 						}
 					}
@@ -314,7 +324,9 @@
 					
 					<div style="margin-top:20px;text-align:center;">
 						<input type="submit" value="上一步" class="button3" onclick="step4_step3()"> 
+						
 						<input type="submit" value="案例参考" class="button2" onclick="gofor_a_example()"> 
+
 						<input type="submit" value="返回首页" class="button2" onclick="step4_step0()"> 
 					</div>
 					
@@ -337,7 +349,7 @@
 	}
 	function gofor_a_example(){
 		
-		location.href="/dbsearchForTest/showPaper?paperId=<%=paper_id%>";
+		location.href="/dbsearchForTest/YH/selfanalysis_example?list=<%=caseList%>";
 	}
 
 	

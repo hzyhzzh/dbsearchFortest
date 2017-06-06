@@ -1,6 +1,8 @@
 package dbsearch.util;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import org.apache.poi.hwpf.usermodel.TableIterator;
 import org.apache.poi.hwpf.usermodel.TableRow;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFPictureData;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
@@ -37,7 +40,27 @@ public class WordParse {
 		}
 		return content.toString();
 	}
-
+	//获取一张图片
+	public static String extractPic(String path, String fileNameNoExt,String dir) throws Exception{
+		
+		try
+		{
+			FileInputStream fis = new FileInputStream(path);  
+			XWPFDocument document = new XWPFDocument(fis);   
+		    List<XWPFPictureData> picList = document.getAllPictures();
+		    byte[] bytev = picList.get(0).getData();  //只取一张图片
+		    fileNameNoExt = fileNameNoExt +".jpg";
+		    
+		    FileOutputStream fos = new FileOutputStream(dir+ File.separator + fileNameNoExt);   
+	        fos.write(bytev);  
+		}
+		catch(POIXMLException xmlexp){
+			
+		}
+		
+		return fileNameNoExt;
+	}
+	///
 	public static String getText(String path) throws Exception {
 		StringBuffer content = new StringBuffer();
 		try {

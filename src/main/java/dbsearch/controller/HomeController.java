@@ -119,9 +119,6 @@ public class HomeController {
 
 	@RequestMapping(value ="/YH/selfanalysis4")
 	public String selfamalysis4(Model model, HttpServletRequest request) {
-		//自我诊断,步骤4
-	//	List<DiagnoseField> parentMaterialList = diagnosefieldService.getDiagnoseFieldByParent(20);
-	//	model.addAttribute("parentMaterialList", parentMaterialList);
 		List<DiagnoseField> parentFieldList = diagnosefieldService.getDiagnoseFieldByParent(1);
 		model.addAttribute("parentFieldList", parentFieldList);
 		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
@@ -135,6 +132,20 @@ public class HomeController {
 		return "YH/selfanalysis4";
 	
 	}
+	
+	@RequestMapping(value ="/YH/selfanalysis_example")
+	public String selfanalysis_example(Model model, HttpServletRequest request) {
+		
+		if (!model.containsAttribute("resultList")) {
+			List resultList = paperService.getAllPaper();
+			model.addAttribute("resultList", resultList);
+		}
+		
+		return "YH/selfanalysis_example";
+	
+	}
+	
+	
 	
 	
 	
@@ -553,12 +564,13 @@ public class HomeController {
 			User owner=paper.getOwner();
 			if(owner.getId()!=user.getId() ){
 				if(user.getRole()==0){
-					errorInfo="抱歉，您的积分不足，请先充值";
+					errorInfo="抱歉，您还不是会员，请先升级为会员";
 					model.addAttribute("errorInfo",errorInfo);
 					model.addAttribute("paper", paper);
 					return "/WX/wenxian_view";
 				}
 			}
+			
 //			return "redirect:/web/viewer.html?file=/dbsearchForTest/uploaded/"
 //					+ paper.getFilePath().replaceFirst("docx$", "pdf").replaceFirst("doc$", "pdf");
 			String filePath="/dbsearchForTest/uploaded/"+ paper.getFilePath().replaceFirst("docx$", "pdf").replaceFirst("doc$", "pdf");
@@ -610,7 +622,7 @@ public class HomeController {
 			} catch (UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			} // 锟矫碉拷锟较达拷时锟斤拷锟侥硷拷锟斤拷
+			} 
 			System.out.println(filename + " uploaded! " + files.size());
 			// 2.2 if files > 10 remove the first from the list
 			if (files.size() >= 100)
@@ -621,8 +633,8 @@ public class HomeController {
 			fileMeta.setFileSize(mpf.getSize() / 1024 + " Kb");
 			try {
 				Paper newPaper = new Paper();
-				newPaper.setOwner(user);// 锟斤拷锟斤拷锟侥硷拷锟较达拷锟斤拷
-				newPaper = paperService.setFileStatus(newPaper, user);// 锟斤拷锟矫癸拷锟斤拷员锟较达拷锟斤拷锟侥硷拷默锟斤拷锟斤拷锟酵拷锟�
+				newPaper.setOwner(user);// 
+				newPaper = paperService.setFileStatus(newPaper, user);
 
 				String extName = filename.substring(filename.lastIndexOf(".") + 1);
 				if (allowExtNames.indexOf(extName) != -1) {
@@ -634,6 +646,7 @@ public class HomeController {
 						DateFormat format = new SimpleDateFormat("yyyyMMddHHmmssSS");
 						sb.append(format.format(new Date()));
 						fileNameNoExt = sb.toString();
+						
 						sb.append("." + extName);
 						filename = sb.toString();
 					} catch (Exception e) {
@@ -647,7 +660,7 @@ public class HomeController {
 //							dir + File.separator + fileNameNoExt + ".pdf");
 //				}
 				try {
-					FileParse.fillModel(newPaper, dir + File.separator + filename);
+					FileParse.fillModel(newPaper, dir + File.separator + filename,fileNameNoExt,dir);
 					paperService.autoFillCategory(newPaper);
 					newPaper.setFilePath(filename);
 					newPaper.setAnalyseMethod("");
