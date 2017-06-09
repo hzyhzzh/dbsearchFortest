@@ -64,8 +64,7 @@
 					order = Integer.parseInt(strorder);
 			%>
 			<tr>
-				<td width="10px" align="left"></td>
-				<td><span onclick="time_order()">按时间排序&nbsp; 
+				<td style="border:1px #D0D0D0 solid;width:20px;background-color:white;"><span onclick="time_order()">&nbsp;&nbsp;按时间排序&nbsp; 
 				<%
 					if(order ==1){
 				%>
@@ -85,11 +84,6 @@
 				<%
 					}
 				%>
-				<!-- <td><span onclick="download_order()">按下载量排序&nbsp; <image
-							id="dAs" height="15px" src="images/ascending.png"> <image
-							id="dDs" height="15px" style="display:none;"
-							src="images/Descending.png"></span></td> -->
-
 			</tr>
 			</table>
 			<div id="paperContent"><jsp:include page="wenxian_list.jsp"

@@ -148,7 +148,10 @@
 			7、微观组织分析表明失效区的微观组织结构球状化已经很严重<br>
 			8、管子在失效前已在高温下服役超过预计蠕变断裂时间的80%
 			</p>
-			<input style="margin-left:30px;margin-bottom:30px;" type="button" name="submit" class="submit-btn" value="点击查看细节" onclick="go_for_detail()"/>
+			<form action="WX/wenxian_viewswf" method="post">  <!-- 隐藏传name表单 -->
+        		<input type="hidden" name="accidentName" id="hiddenForm" value="电站锅炉过热器管的失效分析与改造">  
+			 	<input style="margin-left:30px;margin-bottom:30px;" type="submit" name="submit" class="submit-btn"  value="点击查看细节"/>
+    		</form> 
 		</div>
 	</div>
 	<div style="clear: both;"></div>
@@ -157,11 +160,4 @@
 	</div>
 
 </body>
-<script type="text/javascript">
-function go_for_detail(){
-	alert("显示该案例的pdf");
-	//location.href="/dbsearchForTest/showPaper?paperId=1400";
-}
-
-</script>
 </html>

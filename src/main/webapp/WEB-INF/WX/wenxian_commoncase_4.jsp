@@ -141,7 +141,10 @@
 			<p style="line-height:2em"}>
 			曲柄销的断面形貌清晰的表明疲劳是曲柄销严重失效的根本原因。曲柄销圆角的裂纹萌生区域在基体金属和外加金属合金层的交界面，并且由于焊接的硬化微观组织而加重。外加金属合金层没有热处理以及曲轴可能存在的偏差，造成了过早的严重失效。当曲轴销发生咬粘，去除的材料超过了制造商推荐的尺寸限制的时候，就应该重新更换一个新的曲轴而不是添加金属合金层。
 			</p>
-			<input style="margin-left:30px;margin-bottom:30px;" type="button" name="submit" class="submit-btn" value="点击查看细节" onclick="go_for_detail()"/>
+			<form action="WX/wenxian_viewswf" method="post">  <!-- 隐藏传name表单 -->
+        		<input type="hidden" name="accidentName" id="hiddenForm" value="汽车曲轴的失效分析">  
+			 	<input style="margin-left:30px;margin-bottom:30px;" type="submit" name="submit" class="submit-btn"  value="点击查看细节"/>
+    		</form> 
 		</div>
 	</div>
 	<div style="clear: both;"></div>

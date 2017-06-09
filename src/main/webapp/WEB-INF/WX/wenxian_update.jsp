@@ -129,20 +129,6 @@ tr td {
 		<jsp:include page="../YH/pagehead.jsp" flush="true" />
 	</div>
 	<div class="clear"></div>
-	<!--导航栏-->
-		<div class="e_top" id="bar">
-			<div class="e_topnav">
-				<ul>
-					<li><a id="shouye">网站首页</a></li>
-					<li><a id="search">高级搜索</a></li>
-					<li><a id="selfanalysis">失效自诊</a></li>
-					<li><a id="commoncase">常见案例</a></li>
-					<li><a id="upload">上传文档</a></li>
-					<li><a id="contactus">联系我们</a></li>
-				</ul>
-			</div>
-		</div>
-		<!-- 栏目选择结束 -->
 	<div
 		style="width: 1200px; height: auto; min-height: 800px;; margin: 0 auto;">
 		<div id="wrapper">

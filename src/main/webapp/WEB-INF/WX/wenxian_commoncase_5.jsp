@@ -142,7 +142,10 @@
 			存储过程中，X70钢板发生腐蚀和点蚀的原因为钢板上表面上残留着冷却水。点蚀发生在表面缺陷处，并且腐蚀过程中伴随着沉淀物的产生。小阳极和大阴极促进了点蚀过程。
 
 			</p>
-			<input style="margin-left:30px;margin-bottom:30px;" type="button" name="submit" class="submit-btn" value="点击查看细节" onclick="go_for_detail()"/>
+			<form action="WX/wenxian_viewswf" method="post">  <!-- 隐藏传name表单 -->
+        		<input type="hidden" name="accidentName" id="hiddenForm" value="热轧X70钢板在存储过程中的腐蚀分析">  
+			 	<input style="margin-left:30px;margin-bottom:30px;" type="submit" name="submit" class="submit-btn"  value="点击查看细节"/>
+    		</form> 
 		</div>
 	</div>
 	<div style="clear: both;"></div>

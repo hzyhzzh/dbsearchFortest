@@ -150,7 +150,10 @@
 
 			
 			</p>
-			<input style="margin-left:30px;margin-bottom:30px;" type="button" name="submit" class="submit-btn" value="点击查看细节" onclick="go_for_detail()"/>
+			<form action="WX/wenxian_viewswf" method="post">  <!-- 隐藏传name表单 -->
+        		<input type="hidden" name="accidentName" id="hiddenForm" value="储罐失效">  
+			 	<input style="margin-left:30px;margin-bottom:30px;" type="submit" name="submit" class="submit-btn"  value="点击查看细节"/>
+    		</form> 
 		</div>
 	</div>
 	<div style="clear: both;"></div>

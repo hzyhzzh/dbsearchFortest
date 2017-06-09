@@ -3,6 +3,7 @@ package dbsearch.service.impl;
 import java.io.File;
 import java.util.List;
 
+import org.glassfish.jersey.internal.util.collection.StringIgnoreCaseKeyComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,7 @@ public class PaperService {
 		return paperRepository.getPaperByOwner(ownerId);
 	}
 	
-	//ÉèÖÃ¹ÜÀíÔ±ÉÏ´«µÄÎÄ¼şÄ¬ÈÏÉóºËÍ¨¹ı
+	//ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½Ô±ï¿½Ï´ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 	public Paper setFileStatus(Paper paper, User user){
 		if(user.getRole()==10){
 			paper.setFileStatus(1);
@@ -56,25 +57,41 @@ public class PaperService {
 	}
 	
 	/**   
-	* É¾³ıµ¥¸öÎÄ¼ş   
-	* @param   fileName    ±»É¾³ıÎÄ¼şµÄÎÄ¼şÃû   
-	* @return µ¥¸öÎÄ¼şÉ¾³ı³É¹¦·µ»Øtrue,·ñÔò·µ»Øfalse   
+	* É¾ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½   
+	* @param   fileName    ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½   
+	* @return ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½É¾ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½true,ï¿½ï¿½ï¿½ò·µ»ï¿½false   
 	*/   
 	public boolean deleteFile(String fileName,String dir){
 		boolean flag=false;
 		File file = new File(dir+ File.separator +fileName);
 		if (file.isFile() && file.exists()) {
-			file.delete();//"É¾³ıµ¥¸öÎÄ¼ş"+name+"³É¹¦£¡"
+			file.delete();
 			flag= true;
-		}//"É¾³ıµ¥¸öÎÄ¼ş"+name+"Ê§°Ü£¡"
-		if(fileName.indexOf(".pdf")<1){//Ô­ÏÈÉÏ´«µÄÊÇwordÎÄ¼ş
+		}
+		if(fileName.indexOf(".pdf")<1){
 			fileName=fileName.substring(0, fileName.lastIndexOf('.'))+".pdf";
 			File file1 = new File(dir+ File.separator +fileName);
 			if (file1.isFile() && file1.exists()) {
-				file1.delete();//"É¾³ıµ¥¸öÎÄ¼ş"+name+"³É¹¦£¡"
+				file1.delete();
 				flag= true;
 			}
 		}
+		
+		String fileNameswf=fileName.substring(0, fileName.lastIndexOf('.'))+".swf";
+		File file1 = new File(dir+ File.separator +fileNameswf);
+		if (file1!=null) {
+			file1.delete();
+			flag= true;
+		}
+		
+		
+		String fileNamejpg=fileName.substring(0, fileName.lastIndexOf('.'))+".jpg";
+		File file2 = new File(dir+ File.separator +fileNamejpg);
+		if (file2!=null) {
+			file2.delete();
+			flag= true;
+		}
+		
 		return flag;
 	}
 	public void autoFillCategory(Paper paper){

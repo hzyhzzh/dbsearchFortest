@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.List;
+import dbsearch.domain.CompressPic;
 
 import org.apache.poi.POIXMLException;
 import org.apache.poi.hwpf.HWPFDocument;
@@ -49,10 +50,19 @@ public class WordParse {
 			XWPFDocument document = new XWPFDocument(fis);   
 		    List<XWPFPictureData> picList = document.getAllPictures();
 		    byte[] bytev = picList.get(0).getData();  //只取一张图片
+		//    String bigfileName = fileNameNoExt+"2.jpg";
 		    fileNameNoExt = fileNameNoExt +".jpg";
 		    
 		    FileOutputStream fos = new FileOutputStream(dir+ File.separator + fileNameNoExt);   
 	        fos.write(bytev);  
+	        //尝试压缩图片
+	        CompressPic compresspic = new CompressPic(); 
+	        compresspic.compressPic(dir+ File.separator + fileNameNoExt, dir+ File.separator, 
+	        		fileNameNoExt, fileNameNoExt, 180, 120, false);
+	     //   File f = new File(dir+ File.separator + bigfileName);
+
+	        
+	        
 		}
 		catch(POIXMLException xmlexp){
 			

@@ -48,19 +48,21 @@
 	border: solid 1px rgb(200, 200, 200);
 	background-color: rgb(255, 255, 255);
 	cursor: pointer;
-	margin-bottom: 30px;
+	margin-bottom: 10px;
+	border-radius:10px;
 }
 
 .gly_main {
 	font-family: 综艺体;
 	font-size: 16px;
-	width: 65%;
+	width: 80%;
 	float: right;
 	background-color: rgb(255, 255, 255);
 	border: solid 1px rgb(200, 200, 200);
 	margin-bottom: 50px;
 	margin-top: 30px;
-	display:inline
+	display:inline;
+	border-radius:10px;
 }
 
 .t1 {
@@ -450,10 +452,10 @@
 	var sectionArr = new Array("menu_sub_yhgl", "menu_sub_wdgl","menu_sub_lbgl","menu_sub_fieldmanage", "menu_sub_mmxg", "menu_sub_upload", "menu_sub_tjfx");
 	function setMenuCCS(menu) {
 		for ( var index in sectionArr) {
-			document.getElementById(sectionArr[index]).style.backgroundColor = "rgb(255,255,255)";
+			document.getElementById(sectionArr[index]).style.background = "rgb(255,255,255)";
 			document.getElementById(sectionArr[index]).style.color = "rgb(0,0,0)";
 		}
-		document.getElementById(menu).style.backgroundColor = "rgb(80,80,80)";
+		document.getElementById(menu).style.background = "radial-gradient(rgb(0,144,255), rgb(0,133,255),rgb(0,200,255))";
 		document.getElementById(menu).style.color = "rgb(255,255,255)";
 	}
 	$("#menu_sub_yhgl").click(function() {

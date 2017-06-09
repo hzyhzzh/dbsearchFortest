@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*"
 	contentType="text/html; charset=utf-8" pageEncoding="UTF-8"%>
+	<%@page import="dbsearch.domain.Paper"%>
 <%@	taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@	taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@	taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -41,11 +42,34 @@
 <body>
    <%
    	String filepath = request.getParameter("file");
-    String user = (String)request.getAttribute("user");
+    //String user = (String)request.getAttribute("user");
+    request.setCharacterEncoding("UTF-8");
+    String accidentName = request.getParameter("accidentName");
+    System.out.println(accidentName);
+    if(accidentName !=null)
+    {
+ 	  List<Paper> resultList = (List<Paper>)request.getAttribute("resultList");
+ 	   for(int i=0;i<resultList.size();i++){
+ 		   if(resultList.get(i).getAccidentName().equals(accidentName))
+ 		   {
+ 			   filepath= resultList.get(i).getFilePath().replace("docx", "swf");
+ 			   break;
+ 		   }
+ 	   }
+    }
+    
+    if(filepath == null)
+    {
+    	%>
+    	<input value="数据库中无此参考案例">
+    
+    <% 
+    	return;
+    }
     %>
    	<script type="text/javascript">   
    	var user = "<%=session.getAttribute("user")%>";
-	if (user == null || user == "null") {
+	if (accidentName==null || user == null || user == "null") {
 		alert("请先登陆")
 		location.href="/dbsearchForTest/index";
 	} 

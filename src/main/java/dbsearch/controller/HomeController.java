@@ -158,6 +158,17 @@ public class HomeController {
 		return "index";
 	}
 	
+	@RequestMapping("/WX/wenxian_viewswf")
+	public String welcome8(Model model, HttpServletRequest request) {//常见案例
+		if (!model.containsAttribute("resultList")) {
+			List<Paper> resultList = paperService.getAllPaper();
+			model.addAttribute("resultList", resultList);
+		}
+		return "/WX/wenxian_viewswf";
+	}
+	
+	
+	
 	@RequestMapping("/index1")
 	public String welcome(Model model, HttpServletRequest request) {
 		if (!model.containsAttribute("resultList")) {	

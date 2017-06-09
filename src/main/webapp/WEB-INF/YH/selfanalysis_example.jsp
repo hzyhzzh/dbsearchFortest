@@ -99,10 +99,10 @@ span {
 		List<Paper> resultList;		
 		resultList = (List<Paper>) request.getAttribute("resultList");
 		%>
-		<div id="list" style="width:80%;margin:0 auto;" >
+		<div id="list" style="width:60%;margin:0 auto;" >
 		<%
-		
-		for(int j =0;j<caseList.length;++j)
+		int length = caseList.length>10?10:caseList.length;
+		for(int j =0;j<length;++j)
 			for(int i =0;i<resultList.size();++i)
 				if(resultList.get(i).getId()!= Integer.parseInt(caseList[j]))
 					continue;
