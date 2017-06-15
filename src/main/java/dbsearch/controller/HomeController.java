@@ -44,6 +44,7 @@ import com.sun.mail.handlers.image_gif;
 
 import dbsearch.domain.Category;
 import dbsearch.domain.DiagnoseField;
+import dbsearch.domain.Measures;
 import dbsearch.domain.Paper;
 import dbsearch.domain.User;
 import dbsearch.domain.repository.PaperRepository;
@@ -121,12 +122,18 @@ public class HomeController {
 	public String selfamalysis4(Model model, HttpServletRequest request) {
 		List<DiagnoseField> parentFieldList = diagnosefieldService.getDiagnoseFieldByParent(1);
 		model.addAttribute("parentFieldList", parentFieldList);
-		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
 		
+		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
 		model.addAttribute("FieldList", FieldList);	
+		
+		List<Measures> improvementList = paperService.getAllImprove();
+		model.addAttribute("improvementList", improvementList);
+		
+		
 		if (!model.containsAttribute("resultList")) {
 			List resultList = paperService.getAllPaper();
 			model.addAttribute("resultList", resultList);
+			
 		}
 		
 		return "YH/selfanalysis4";

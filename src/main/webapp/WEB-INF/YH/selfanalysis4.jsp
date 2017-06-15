@@ -1,3 +1,4 @@
+<%@page import="dbsearch.domain.Measures"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ page language="java" import="dbsearch.domain.Paper"%>
 <%@ page language="java" import="java.util.Map.Entry" %>
@@ -238,6 +239,8 @@
 						int sum = 0;
 						List<Paper> resultList;		
 						resultList = (List<Paper>) request.getAttribute("resultList");
+						List<Measures> improvementList;
+						improvementList = (List<Measures>)request.getAttribute("improvementList");
 						Map<String,Integer> items = new HashMap<String,Integer>();
 						
 						String caseList = "";
@@ -292,9 +295,10 @@
 				<div class="leftside">
 					<h4 style="margin-top:100px;">可能是以下失效</h4>
 					<%
+					String cause = "";
 					if(list.size()!=0 ){
 						int size = list.size()<3?list.size():3;
-				
+						cause = list.get(0).getKey();
 						for(int i =0;i<size;++i){
 						float rate = (float)list.get(i).getValue()/sum;
 							
@@ -314,13 +318,30 @@
 					
 				<div class="rightside" id="step1hthk" style="display:block">
 					
-					<h4>应力腐蚀开裂</h4>
-					<p>应力腐蚀开裂与材料、应力、及环境三方面的影响因素密切相关，因此也是从这三个方面采取措施。</p>
+					<!--  <h4>应力腐蚀开裂</h4>
+					<p>应力腐蚀开裂与材料、应力、及环境三方面的影响因素密切相关，因此也是从这三个方面采取措施。</p>-->
 					<h4>改进措施</h4>
-					<p>a.合理选材和提高金属材料的质量。<br>
-					   b.控制和降低应力。<br>
-					   c.改善环境条件，采取保护措施。
+					<%
+					int tag = 0 ;
+					for(int i = 0;i<improvementList.size();++i)
+						if(improvementList.get(i).getCause().equals(cause))
+						{
+							tag =1;
+					%>
+					<p><%=improvementList.get(i).getMethod() %>
 					</p>
+					<%
+						break;
+						}						
+					%>
+					<%
+					if(tag==0)
+					{
+						%>	
+						<p>暂无改进措施</p>
+						<% 
+					}
+					%>
 					
 					<div style="margin-top:20px;text-align:center;">
 						<input type="submit" value="上一步" class="button3" onclick="step4_step3()"> 

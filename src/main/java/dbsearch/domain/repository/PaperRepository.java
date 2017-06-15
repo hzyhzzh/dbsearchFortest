@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import dbsearch.domain.Measures;
 import dbsearch.domain.Paper;
 
 @Repository
@@ -86,5 +87,13 @@ public class PaperRepository {
 		} finally {
 			session.close();
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Measures> getAllImprove(){
+		String hsql = "from measures";
+		Session session = sessionFactory.openSession();
+		Query query = session.createQuery(hsql);
+		return query.list();
 	}
 }

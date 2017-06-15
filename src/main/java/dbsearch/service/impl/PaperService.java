@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dbsearch.domain.Category;
+import dbsearch.domain.Measures;
 import dbsearch.domain.Paper;
 import dbsearch.domain.User;
 import dbsearch.domain.repository.CategoryRepository;
@@ -22,6 +23,10 @@ public class PaperService {
 	
 	public List<Paper> getAllPaper(){
 		return paperRepository.getAllPaper();
+	}
+	
+	public List<Measures> getAllImprove(){
+		return paperRepository.getAllImprove();
 	}
 	
 	public boolean addPaper(Paper paper){
