@@ -222,7 +222,7 @@
 				</div>
 			</div>
 			<div class="stepswords">
-				<span  id="step_wd1" >选择领域</span>
+				<span  id="step_wd1" >选择材料</span>
 				<span id="step_wd2">选择设备</span>
 				<span id="step_wd3">失效形式</span>
 				<span id="step_wd4" style="color:#2894FF">诊断结果</span>		
@@ -230,42 +230,41 @@
 		</div>
 		<% 
 						
-						String fieldname=(String)request.getParameter("fieldname");//失效领域
-						fieldname = new String(fieldname.getBytes("iso-8859-1"),"utf-8");
+						String materialname=(String)request.getParameter("materialname");//失效领域
+						materialname = new String(materialname.getBytes("iso-8859-1"),"utf-8");
 						String failurequipment=(String)request.getParameter("failurequipment");//失效部件
 						failurequipment = new String(failurequipment.getBytes("iso-8859-1"),"utf-8");
 						String failurebehaviour=(String)request.getParameter("failurebehaviour");; //失效形式
 						failurebehaviour = new String(failurebehaviour.getBytes("iso-8859-1"),"utf-8");
 						
-						
 						List<DiagnoseField> parentFieldList = (List<DiagnoseField>)request.getAttribute("parentFieldList");
-						List<String> parentFieldNameList = new ArrayList<String>();
+						List<String> parentMaterialNameList = new ArrayList<String>();
 						for(int i = 0;i<parentFieldList.size();++i){
-							parentFieldNameList.add(parentFieldList.get(i).getName());
+							parentMaterialNameList.add(parentFieldList.get(i).getName());
 						}
 						List<List<DiagnoseField>> FieldList = (List<List<DiagnoseField>>)request.getAttribute("FieldList");
 						
-						
-						
 						int sum = 0;
 						List<Paper> resultList;		
-						resultList = (List<Paper>) request.getAttribute("resultList");//案例集合
-						List<Measures> improvementList;//改进措施
+						resultList = (List<Paper>) request.getAttribute("resultList");
+						List<Measures> improvementList;
 						improvementList = (List<Measures>)request.getAttribute("improvementList");
 						Map<String,Integer> items = new HashMap<String,Integer>();
+						
 						String caseList = "";
 						
 						for(int i =0;i<resultList.size();++i)
 						{
+							String materialinfo = resultList.get(i).getFailureMaterial();
 							String failureequipment = resultList.get(i).getFailureEquipment();
 							String failurebehave = resultList.get(i).getFailureBehave();
 							String failurecause = resultList.get(i).getFailureCause();
-							//失效领域为其他
-							if((fieldname.equals("其他")|| fieldname.equals("其它")) && 
+							//失效材料为其他
+							if((materialname.equals("其他")|| materialname.equals("其它")) && 
 									!(failurequipment.equals("其他")||failurequipment.equals("其它"))){
 								int tag = 1;
-								for(String temp: parentFieldNameList)
-									if(failureequipment.contains(temp)){
+								for(String temp: parentMaterialNameList)
+									if(materialinfo.contains(temp)){
 										tag = 0;
 										break;
 									}
@@ -293,15 +292,13 @@
 								
 								
 							}
-							
-							
 							//失效设备为其他
-							else if(!(fieldname.equals("其他")|| fieldname.equals("其它")) && 
+							else if(!(materialname.equals("其他")|| materialname.equals("其它")) && 
 									(failurequipment.equals("其他")||failurequipment.equals("其它"))){
-								if(failureequipment.contains(fieldname) && failurebehave.contains(failurebehaviour)){
+								if(materialinfo.contains(materialname) && failurebehave.contains(failurebehaviour)){
 									List<DiagnoseField> test_equipment = new ArrayList<DiagnoseField>();
 									for(List<DiagnoseField> templist: FieldList){
-										if(templist.get(0).getName().equals(fieldname)){
+										if(templist.get(0).getName().equals(materialname)){
 											test_equipment = templist;
 											break;
 										}
@@ -338,19 +335,20 @@
 								}
 							}
 							
-							//失效设备和领域都为其他
-							else if((fieldname.equals("其他")|| fieldname.equals("其它")) && 
+							//失效材料和领域都为其他
+							else if((materialname.equals("其他")|| materialname.equals("其它")) && 
 									(failurequipment.equals("其他")||failurequipment.equals("其它"))){
 								int tag =1;
 								for(List<DiagnoseField> templist: FieldList){
 									for(DiagnoseField temp: templist){
-										if(failureequipment.contains(temp.getName()) ){
+										if(failureequipment.contains(temp.getName())|| 
+												materialinfo.contains(temp.getName())){
 											tag =0;
 											break;
 										}
 									}
 								}
-								if(tag == 1&& failurebehave.contains(failurebehaviour)){
+								if(tag == 1 && failurebehave.contains(failurebehaviour)){
 									sum ++;
 									if(sum == 1)
 										caseList= caseList + String.valueOf(resultList.get(i).getId());
@@ -372,10 +370,10 @@
 									
 							}
 							
-							//都不为其他
-							else if(failureequipment.contains(fieldname) 
-									&& failureequipment.contains(failurequipment)
-									&& failurebehave.contains(failurebehaviour))
+							
+							else if(materialinfo.contains(materialname) 
+									& failureequipment.contains(failurequipment)
+									& failurebehave.contains(failurebehaviour))
 							{
 								sum ++;
 								if(sum == 1)
@@ -411,7 +409,7 @@
 					});
 					
 					%>
-		<input  id="fieldname" type ="hidden" value=<%=fieldname%>>
+		<input  id="fieldname" type ="hidden" value=<%=materialname%>>
 		<input  id="failurequipment" type ="hidden" value=<%=failurequipment%>>
 		<div class="container" style="width:885px;height:588px;">
 			<div style="border:1px solid #2894FF;margin:100px auto; width:760px;height:400px">
@@ -447,7 +445,6 @@
 					<%
 					int tag = 0 ;
 					for(int i = 0;i<improvementList.size();++i)
-						//if(improvementList.get(i).getCause().equals(cause))
 						if(cause.contains(improvementList.get(i).getCause()))
 						{
 							tag =1;
@@ -495,10 +492,10 @@ $("#materialclassify").click(function(){
 });
 
 	function step4_step3(){
-		location.href="/dbsearchForTest/YH/selfanalysis3?fieldname="+$("#fieldname").val()+"&"+"failurequipment="+$("#failurequipment").val();
+		location.href="/dbsearchForTest/YH/selfanalysis_Material3?materialname="+$("#fieldname").val()+"&"+"failurequipment="+$("#failurequipment").val();
 	}	
 	function step4_step0(){
-		location.href="/dbsearchForTest/YH/selfanalysis";
+		location.href="/dbsearchForTest/YH/selfanalysis_Material";
 	}
 	function gofor_a_example(){
 		

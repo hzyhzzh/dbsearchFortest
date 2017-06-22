@@ -180,9 +180,9 @@
 			<input id="fieldclassify" type="button" class="button1" value="领域分类" onclick="">
 			<input id="materialclassify" type="button" class="button1" value="材料分类" onclick="">
 			<%
-			if(request.getParameter("fieldname")!=null & request.getParameter("failurequipment")!=null)
+			if(request.getParameter("materialname")!=null & request.getParameter("failurequipment")!=null)
 			{
-				String fieldname=(String)request.getParameter("fieldname"); 
+				String fieldname=(String)request.getParameter("materialname"); 
 				fieldname = new String(fieldname.getBytes("iso-8859-1"),"UTF-8");
 			
 				String failurequipment=(String)request.getParameter("failurequipment"); 
@@ -217,7 +217,7 @@
 				</div>
 			</div>
 			<div class="stepswords">
-				<span  id="step_wd1" >选择领域</span>
+				<span  id="step_wd1" >选择材料</span>
 				<span id="step_wd2" >选择设备</span>
 				<span id="step_wd3" style="color:#2894FF">失效形式</span>
 				<span id="step_wd4">诊断结果</span>		
@@ -234,9 +234,6 @@
 					<div style="margin:0 auto;text-align:center;line-height:2em;font-size:14px;color:#7B7B7B;">
 						<form>
 						<%				
-							
-							
-							
 							List<DiagnoseField> BehaveList;
 							BehaveList = (List<DiagnoseField>) request.getAttribute("BehaveList");
 							for(int i = 0;i<BehaveList.size();++i)
@@ -313,7 +310,7 @@ var opts = {
 	
 	
 	function step3_step2(){
-		location.href="/dbsearchForTest/YH/selfanalysis";
+		location.href="/dbsearchForTest/YH/selfanalysis_Material";
 	}
 	function step3_step4(){
 		if($("#failurebehaviour").val()=="")
@@ -325,7 +322,7 @@ var opts = {
 			var target = document.getElementById('wait_gif')
 			var spinner = new Spinner().spin()
 			target.appendChild(spinner.el)
-			var b= "/dbsearchForTest/YH/selfanalysis4?fieldname="+$("#fieldname").val()+"&"+"failurequipment="+$("#failurequipment").val()+"&"+"failurebehaviour="+$("#failurebehaviour").val()
+			var b= "/dbsearchForTest/YH/selfanalysis_Material4?materialname="+$("#fieldname").val()+"&"+"failurequipment="+$("#failurequipment").val()+"&"+"failurebehaviour="+$("#failurebehaviour").val()
 			location.href=b;
 		}
 		

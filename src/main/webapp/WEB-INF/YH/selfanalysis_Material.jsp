@@ -221,7 +221,7 @@
 				</div>
 			</div>
 			<div class="stepswords">
-				<span  id="step_wd1" style="color:#2894FF">选择领域</span>
+				<span  id="step_wd1" style="color:#2894FF">选择材料</span>
 				<span id="step_wd2">选择设备</span>
 				<span id="step_wd3">失效形式</span>
 				<span id="step_wd4">诊断结果</span>		
@@ -265,7 +265,7 @@
 					</form>
 				</div>
 				<div class="rightside" id="step1" style="display:block">
-					<h4 style="margin:90px auto 10px auto">请您的设备所属领域</h4>
+					<h4 style="margin:90px auto 10px auto">请您的设备所属材料分类</h4>
 					<div style="margin:0 auto">
 						<p style="margin:auto auto auto 10px">请点击左侧按钮选择您的设备所属的行业领域，或点击上方的材料分类选择您设备的材料。</p>
 					</div>
@@ -302,9 +302,9 @@
 				</div>
 				
 				<% 			
-						}
+						
 	
-					
+					}
 				%>
 			</div>
 		</div>
@@ -317,8 +317,7 @@
 <script type="text/javascript">
 
 	$("#fieldclassify").click(function(){
-		location.href = "/dbsearchForTest/YH/selfanalysis"
-		
+		location.href = "/dbsearchForTest/YH/selfanalysis"	
 	});
 	$("#materialclassify").click(function(){
 		location.href = "/dbsearchForTest/YH/selfanalysis_Material"	
@@ -351,7 +350,7 @@
 		}
 		else
 		{
-			var b= "/dbsearchForTest/YH/selfanalysis3?fieldname="+$("#fieldname").val()+"&"+"failurequipment="+$("#failurequipment").val()
+			var b= "/dbsearchForTest/YH/selfanalysis_Material3?materialname="+$("#fieldname").val()+"&"+"failurequipment="+$("#failurequipment").val()
 			location.href=b;
 		}
 				

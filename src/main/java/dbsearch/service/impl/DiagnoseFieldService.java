@@ -38,12 +38,12 @@ public class DiagnoseFieldService {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public List<List<DiagnoseField>> getAllDiagnoseFieldViaList() {
+	public List<List<DiagnoseField>> getAllDiagnoseFieldViaList(int id) {
 		List retList=new ArrayList();
 		
 		List parentList=new ArrayList();
 		
-		parentList=diagnosefieldRepository.getDiagnoseFieldByParent(1);
+		parentList=diagnosefieldRepository.getDiagnoseFieldByParent(id);
 		
 		if(!parentList.isEmpty()){
 			for(int i=0;i<parentList.size();i++){

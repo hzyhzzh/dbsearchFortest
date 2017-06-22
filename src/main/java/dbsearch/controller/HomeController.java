@@ -96,34 +96,49 @@ public class HomeController {
 		//自我诊断
 		
 		List<DiagnoseField> parentFieldList = diagnosefieldService.getDiagnoseFieldByParent(1);
-	//	List<DiagnoseField> parentMaterialList = diagnosefieldService.getDiagnoseFieldByParent(20);
 		model.addAttribute("parentFieldList", parentFieldList);
-		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
+		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList(1);
 		model.addAttribute("FieldList", FieldList);
-		//model.addAttribute("parentMaterialList", parentMaterialList);
 		return "YH/selfanalysis";
+	}
+	
+	@RequestMapping("/YH/selfanalysis_Material")
+	public String selfamalysis_Material(Model model, HttpServletRequest request) {
+		//自我诊断
+		
+		List<DiagnoseField> parentFieldList = diagnosefieldService.getDiagnoseFieldByParent(2);
+		model.addAttribute("parentFieldList", parentFieldList);
+		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList(2);
+		model.addAttribute("FieldList", FieldList);
+
+		return "YH/selfanalysis_Material";
 	}
 	
 	@RequestMapping("/YH/selfanalysis3")
 	public String selfamalysis3(Model model, HttpServletRequest request) {
 		//自我诊断,步骤3
-		List<DiagnoseField> parentFieldList = diagnosefieldService.getDiagnoseFieldByParent(1);
-		model.addAttribute("parentFieldList", parentFieldList);
-		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
-		model.addAttribute("FieldList", FieldList);	
-	//	List<DiagnoseField> parentMaterialList = diagnosefieldService.getDiagnoseFieldByParent(20);
-	//	model.addAttribute("parentMaterialList", parentMaterialList);
+
+		List<DiagnoseField> BehaveList = diagnosefieldService.getDiagnoseFieldByParent(3);
+		model.addAttribute("BehaveList", BehaveList);	
 		return "YH/selfanalysis3";
-	
 	}
 	
+	@RequestMapping("/YH/selfanalysis_Material3")
+	public String selfanalysis_Material3(Model model, HttpServletRequest request) {
+		//自我诊断,步骤3
+		List<DiagnoseField> BehaveList = diagnosefieldService.getDiagnoseFieldByParent(3);
+		model.addAttribute("BehaveList", BehaveList);
+
+		return "YH/selfanalysis_Material3";
+	
+	}
 
 	@RequestMapping(value ="/YH/selfanalysis4")
 	public String selfamalysis4(Model model, HttpServletRequest request) {
 		List<DiagnoseField> parentFieldList = diagnosefieldService.getDiagnoseFieldByParent(1);
 		model.addAttribute("parentFieldList", parentFieldList);
 		
-		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
+		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList(1);
 		model.addAttribute("FieldList", FieldList);	
 		
 		List<Measures> improvementList = paperService.getAllImprove();
@@ -139,6 +154,29 @@ public class HomeController {
 		return "YH/selfanalysis4";
 	
 	}
+	
+	@RequestMapping(value ="/YH/selfanalysis_Material4")
+	public String selfanalysis_Material4(Model model, HttpServletRequest request) {
+		List<DiagnoseField> parentFieldList = diagnosefieldService.getDiagnoseFieldByParent(2);
+		model.addAttribute("parentFieldList", parentFieldList);
+		
+		List<List<DiagnoseField>> FieldList = diagnosefieldService.getAllDiagnoseFieldViaList(2);
+		model.addAttribute("FieldList", FieldList);	
+		
+		List<Measures> improvementList = paperService.getAllImprove();
+		model.addAttribute("improvementList", improvementList);
+		
+		
+		if (!model.containsAttribute("resultList")) {
+			List resultList = paperService.getAllPaper();
+			model.addAttribute("resultList", resultList);
+			
+		}
+		
+		return "YH/selfanalysis_Material4";
+	
+	}
+	
 	
 	@RequestMapping(value ="/YH/selfanalysis_example")
 	public String selfanalysis_example(Model model, HttpServletRequest request) {
@@ -203,8 +241,16 @@ public class HomeController {
 		model.addAttribute("tagline", "The	one	and	only	amazing	webstore");
 		List<List<Category>> cateList = categoryService.getAllCategoryViaList();
 		model.addAttribute("cateList", cateList);
-		List<List<DiagnoseField>> fieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
-		model.addAttribute("fieldList", fieldList);
+		List<List<DiagnoseField>> fieldList = diagnosefieldService.getAllDiagnoseFieldViaList(1);
+		List<List<DiagnoseField>> materialList = diagnosefieldService.getAllDiagnoseFieldViaList(2);
+		List<DiagnoseField> behave = diagnosefieldService.getDiagnoseFieldByParent(3);
+		List<List<DiagnoseField>> behaveList = new ArrayList<List<DiagnoseField>>();
+		behaveList.add(behave);
+		List<List<DiagnoseField>> sumList= new ArrayList<List<DiagnoseField>>();
+		sumList.addAll(fieldList);
+		sumList.addAll(materialList);
+		sumList.addAll(behaveList);
+		model.addAttribute("fieldList", sumList);
 		return "YH/" + page;
 	}
 
@@ -226,8 +272,16 @@ public class HomeController {
 	
 	@RequestMapping(value = "/insertField", method = RequestMethod.POST)
 	public String doInsertField(Model model) {
-		List<List<DiagnoseField>> fieldList = diagnosefieldService.getAllDiagnoseFieldViaList();
-		model.addAttribute("fieldList", fieldList);
+		List<List<DiagnoseField>> fieldList = diagnosefieldService.getAllDiagnoseFieldViaList(1);
+		List<List<DiagnoseField>> materialList = diagnosefieldService.getAllDiagnoseFieldViaList(2);
+		List<DiagnoseField> behave = diagnosefieldService.getDiagnoseFieldByParent(3);
+		List<List<DiagnoseField>> behaveList = new ArrayList<List<DiagnoseField>>();
+		behaveList.add(behave);
+		List<List<DiagnoseField>> sumList= new ArrayList<List<DiagnoseField>>();
+		sumList.addAll(fieldList);
+		sumList.addAll(materialList);
+		sumList.addAll(behaveList);
+		model.addAttribute("fieldList", sumList);
 		return "YH/diagnosefieldmanage02";
 	
 	}
@@ -240,7 +294,7 @@ public class HomeController {
 			category.setName(name);
 			category.setParent(diagnosefieldService.getDiagnoseFieldById(Integer.parseInt(parentId)));
 			diagnosefieldService.addDiagnoseField(category);
-			List<List<DiagnoseField>> cateList = diagnosefieldService.getAllDiagnoseFieldViaList();
+			List<List<DiagnoseField>> cateList = diagnosefieldService.getAllDiagnoseFieldViaList(1);
 			model.addAttribute("fieldList", cateList);
 			return "YH/diagnosefieldmanage";
 		} catch (Exception e) {
@@ -293,7 +347,7 @@ public class HomeController {
 			return "YH/diagnosefieldmanage03";
 		} catch (Exception e) {
 			System.out.println(e);
-			List<List<DiagnoseField>> cateList = diagnosefieldService.getAllDiagnoseFieldViaList();
+			List<List<DiagnoseField>> cateList = diagnosefieldService.getAllDiagnoseFieldViaList(1);
 			model.addAttribute("fieldList", cateList);
 			return "YH/diagnosefieldmanage";
 		}
@@ -327,8 +381,16 @@ public class HomeController {
 			category.setName(cateName);
 			diagnosefieldService.updateDiagnoseField(category);
 
-			List<List<DiagnoseField>> cateList = diagnosefieldService.getAllDiagnoseFieldViaList();
-			model.addAttribute("fieldList", cateList);
+			List<List<DiagnoseField>> fieldList = diagnosefieldService.getAllDiagnoseFieldViaList(1);
+			List<List<DiagnoseField>> materialList = diagnosefieldService.getAllDiagnoseFieldViaList(2);
+			List<DiagnoseField> behave = diagnosefieldService.getDiagnoseFieldByParent(3);
+			List<List<DiagnoseField>> behaveList = new ArrayList<List<DiagnoseField>>();
+			behaveList.add(behave);
+			List<List<DiagnoseField>> sumList= new ArrayList<List<DiagnoseField>>();
+			sumList.addAll(fieldList);
+			sumList.addAll(materialList);
+			sumList.addAll(behaveList);
+			model.addAttribute("fieldList", sumList);
 			return "YH/diagnosefieldmanage";
 		} catch (Exception e) {
 			System.out.println(e);
@@ -363,8 +425,17 @@ public class HomeController {
 			DiagnoseField category = diagnosefieldService.getDiagnoseFieldById(Integer.parseInt(cateId));
 			diagnosefieldService.deleteDiagnoseField(category);
 
-			List<List<DiagnoseField>> cateList = diagnosefieldService.getAllDiagnoseFieldViaList();
-			model.addAttribute("fieldList", cateList);
+			List<List<DiagnoseField>> fieldList = diagnosefieldService.getAllDiagnoseFieldViaList(1);
+			List<List<DiagnoseField>> materialList = diagnosefieldService.getAllDiagnoseFieldViaList(2);
+			List<DiagnoseField> behave = diagnosefieldService.getDiagnoseFieldByParent(3);
+			List<List<DiagnoseField>> behaveList = new ArrayList<List<DiagnoseField>>();
+			behaveList.add(behave);
+			List<List<DiagnoseField>> sumList= new ArrayList<List<DiagnoseField>>();
+			sumList.addAll(fieldList);
+			sumList.addAll(materialList);
+			sumList.addAll(behaveList);
+			model.addAttribute("fieldList", sumList);
+			
 			return "YH/diagnosefieldmanage";
 		} catch (Exception e) {
 			System.out.println(e);

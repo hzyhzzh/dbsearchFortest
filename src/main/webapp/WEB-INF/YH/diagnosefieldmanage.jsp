@@ -78,13 +78,24 @@
  			if(!menuList.isEmpty()){
 	 			for(int i=0;i<menuList.size();i++){
 	 				subList=menuList.get(i);
-	 				tempDiagnoseField=subList.get(0);//一级标题
+	 				if(i<menuList.size()-1)
+	 					tempDiagnoseField = subList.get(0);//一级标题
+	 				else if(i==menuList.size()-1){
+	 					tempDiagnoseField = new DiagnoseField();
+	 					tempDiagnoseField.setName("失效形式");
+	 				}
+	 					
 	 	%>
 	 	<table id="tb_<%=tempDiagnoseField.getId() %>" class="t2">
 	 		<tr>
 	 			<td align="center">
+	 				<%if(!tempDiagnoseField.getName().equals("失效形式")){
+	 					%>
 	 				<input id="chkId_<%=tempDiagnoseField.getId() %>" name="chk" type="checkbox" value="<%=tempDiagnoseField.getId() %>" 
 	 					onclick="setSelectedSingle(this)"/></td>
+	 					<%
+	 				}
+	 					%>
 	            <td width="45%" align="center">
 	            	<%=tempDiagnoseField.getName() %>
 	            </td>
@@ -96,8 +107,12 @@
 	    <div id="div_<%=tempDiagnoseField.getId() %>" class="div_sec">
 	    <table class="t2">
 	 	<%			
-	 				for(int k=1;k<subList.size();k++){
+	 				for(int k=0;k<subList.size();k++){
+	 					if(!tempDiagnoseField.getName().equals("失效形式") && k == 0)
+	 						continue;
 	 					tempDiagnoseField=subList.get(k);//二级标题
+	 					
+	 					
 	 	%>
 	 		<tr id="sub_tr_id_<%=tempDiagnoseField.getId() %>">
 	 			<td  align="center">
@@ -126,6 +141,7 @@
 			<input value="删除" type="button" class="s_btn" style="margin-left:40px;" onclick="doDelete()">
 		</div>	
 <script type="text/javascript">
+hideAll()
 function doInsert(){
 	var url = "/dbsearchForTest/insertField";
 	var data = {
@@ -189,7 +205,7 @@ function doDelete(){
 		return;
 	}
 	
-	if(confirm("确定要删除这条类别吗？")){
+	if(confirm("确定要删除这条类别吗？(请确保其子关键词已被删除)")){
 		var url = "/dbsearchForTest/deleteField";
 		var data = {
 			"cateId" : cateId

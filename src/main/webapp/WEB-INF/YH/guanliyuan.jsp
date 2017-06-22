@@ -21,6 +21,7 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
+<script src="js/jquery.js"></script>
 <link rel="shortcut icon" href="images/tablogo.ico" type="image/x-icon" />
 <link href="css/css.css" rel="stylesheet" type="text/css" />
 
@@ -51,7 +52,9 @@
 	margin-bottom: 10px;
 	border-radius:10px;
 }
-
+.menu_sub_span{
+	color:#000
+}
 .gly_main {
 	font-family: 综艺体;
 	font-size: 16px;
@@ -279,25 +282,25 @@
 		<div id="wrapper">
 			<div class="menu_gly">
 				<div id="menu_sub_yhgl" class="menu_sub">
-					<span class="menu_sub_span">用户管理</span>
+					<span id="span_sub_yhgl" class="menu_sub_span">用户管理</span>
 				</div>
 				<div id="menu_sub_wdgl" class="menu_sub">
-					<span class="menu_sub_span">文档管理</span>
+					<span id="span_sub_wdgl" class="menu_sub_span">文档管理</span>
 				</div>
 				<div id="menu_sub_lbgl" class="menu_sub">
-					<span class="menu_sub_span">类别管理</span>
+					<span id="span_sub_lbgl" class="menu_sub_span">类别管理</span>
 				</div>
 				<div id="menu_sub_fieldmanage" class="menu_sub">
-					<span class="menu_sub_span">自诊关键词管理</span>
+					<span id="span_sub_fieldmanage" class="menu_sub_span">自诊关键词管理</span>
 				</div>
 				<div id="menu_sub_upload" class="menu_sub">
-					<span class="menu_sub_span">上传文章</span>
+					<span id="span_sub_upload" class="menu_sub_span">上传文章</span>
 				</div>
 				<div id="menu_sub_tjfx" class="menu_sub">
-					<span class="menu_sub_span">统计分析</span>
+					<span id="span_sub_tjfx" class="menu_sub_span">统计分析</span>
 				</div>
 				<div id="menu_sub_mmxg" class="menu_sub">
-					<span class="menu_sub_span">密码修改</span>
+					<span id="span_sub_mmxg" class="menu_sub_span">密码修改</span>
 				</div>
 			</div>
 			<div class="gly_main">
@@ -451,12 +454,17 @@
 	}
 	var sectionArr = new Array("menu_sub_yhgl", "menu_sub_wdgl","menu_sub_lbgl","menu_sub_fieldmanage", "menu_sub_mmxg", "menu_sub_upload", "menu_sub_tjfx");
 	function setMenuCCS(menu) {
+		var span = menu.replace("menu","span")
 		for ( var index in sectionArr) {
+			var spanindex = sectionArr[index].replace("menu","span")
 			document.getElementById(sectionArr[index]).style.background = "rgb(255,255,255)";
 			document.getElementById(sectionArr[index]).style.color = "rgb(0,0,0)";
+			document.getElementById(spanindex).style.color = "rgb(0,0,0)";
 		}
 		document.getElementById(menu).style.background = "radial-gradient(rgb(0,144,255), rgb(0,133,255),rgb(0,200,255))";
 		document.getElementById(menu).style.color = "rgb(255,255,255)";
+		document.getElementById(span).style.color = "rgb(255,255,255)";
+		
 	}
 	$("#menu_sub_yhgl").click(function() {
 		setMenuCCS("menu_sub_yhgl");
